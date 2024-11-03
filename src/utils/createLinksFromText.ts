@@ -11,10 +11,7 @@ const createLinksFromText = <T extends string, R extends unknown>(
     result.push(text.substring(lastIndex, match.index))
     lastIndex = match.index + match[0].length
 
-    result.push({
-      key: match[1],
-      text: match[2],
-    })
+    result.push({ key: match[1], text: match[2] })
   }
   result.push(text.substring(lastIndex))
 
