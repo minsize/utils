@@ -1,0 +1,22 @@
+{
+  "name": "@minsize/utils",
+  "version": "0.0.1",
+  "description": "Frequently used utilities",
+  "license": "MIT",
+  "types": "index.ts",
+  "author": {
+    "name": "Egor Kytyukov",
+    "url": "https://t.me/xuserz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minsize/utils"
+  },
+  "contributors": [],
+  "keywords": [
+    "utils",
+    "utilities",
+    "frontend",
+    "backend"
+  ]
+}
