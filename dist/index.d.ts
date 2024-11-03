@@ -73,4 +73,13 @@ declare function pick<T extends object, K extends keyof T>(object: T, keys: K[])
  */
 declare const sleep: (time: number) => Promise<unknown>;
 
-export { alignTo, chunks, clamp, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };
+/**
+ *
+ * @example
+ * copyText("Hello world") // return: boolean
+ */
+declare const copyText: (text?: string) => boolean;
+
+declare const createLinksFromText: <T extends string, R extends unknown>(text: string, callback: (key: T, value: string) => R) => (string | R)[];
+
+export { alignTo, chunks, clamp, copyText, createLinksFromText, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };

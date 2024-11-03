@@ -2,6 +2,7 @@ import {
   alignTo,
   chunks,
   clamp,
+  createLinksFromText,
   decWord,
   formatNumber,
   isType,
@@ -164,5 +165,15 @@ describe("Utils", () => {
   })
   it("pick", async () => {
     expect(pick({ key: 1, id: 2 }, ["id"])).toEqual({ id: 2 })
+  })
+  it("createLinksFromText", async () => {
+    expect(
+      createLinksFromText(
+        "Hello {{key1:text}} {{key2:text}}!",
+        (key, value) => {
+          return `${key}:${value}`
+        },
+      ),
+    ).toEqual(["Hello ", "key1:text", " ", "key2:text", "!"])
   })
 })
