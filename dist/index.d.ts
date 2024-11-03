@@ -30,7 +30,7 @@ declare const toShort: (number: number, customParts?: string[], fixed?: number) 
 
 declare const timeAgo: (timestamp: number) => string;
 
-declare const formatNumber: (number: number) => string | 0;
+declare const formatNumber: (number: number) => string;
 
 /**
  *
@@ -66,4 +66,11 @@ declare function omit<T extends object, K extends keyof T>(object: T, keys: K[])
  */
 declare function pick<T extends object, K extends keyof T>(object: T, keys: K[]): Pick<T, K>;
 
-export { alignTo, chunks, clamp, decWord, formatNumber, isType, omit, pick, random, shuffle, timeAgo, toShort };
+/**
+ *
+ * @example
+ * await sleep(1000)
+ */
+declare const sleep: (time: number) => Promise<unknown>;
+
+export { alignTo, chunks, clamp, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };
