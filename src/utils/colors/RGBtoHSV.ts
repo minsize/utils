@@ -1,7 +1,11 @@
 /**
  * @returns [h,s,v]
  */
-const RGBtoHSV = (r: number, g: number, b: number) => {
+const RGBtoHSV = (
+  r: number,
+  g: number,
+  b: number,
+): [number, number, number] => {
   var max = Math.max(r, g, b),
     min = Math.min(r, g, b),
     d = max - min,

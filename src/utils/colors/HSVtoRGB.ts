@@ -1,7 +1,11 @@
 /**
  * @returns [r,g,b]
  */
-const HSVtoRGB = (h: number, s: number, v: number) => {
+const HSVtoRGB = (
+  h: number,
+  s: number,
+  v: number,
+): [number, number, number] => {
   var r, g, b, i, f, p, q, t
   i = Math.floor(h * 6)
   f = h * 6 - i

@@ -85,13 +85,13 @@ declare const createLinksFromText: <T extends string, R extends unknown>(text: s
 /**
  * @returns [r,g,b]
  */
-declare const HSVtoRGB: (h: number, s: number, v: number) => number[];
+declare const HSVtoRGB: (h: number, s: number, v: number) => [number, number, number];
 
 declare const RGBtoHEX: (r: number, g: number, b: number) => string;
 
 /**
  * @returns [h,s,v]
  */
-declare const RGBtoHSV: (r: number, g: number, b: number) => number[];
+declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, number];
 
 export { HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, copyText, createLinksFromText, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };
