@@ -13,3 +13,7 @@ export { default as pick } from "./utils/pick"
 export { default as sleep } from "./utils/sleep"
 export { default as copyText } from "./utils/copyText"
 export { default as createLinksFromText } from "./utils/createLinksFromText"
+
+export { default as HSVtoRGB } from "./utils/colors/HSVtoRGB"
+export { default as RGBtoHEX } from "./utils/colors/RGBtoHEX"
+export { default as RGBtoHSV } from "./utils/colors/RGBtoHSV"
