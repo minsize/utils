@@ -83,6 +83,31 @@ declare const copyText: (text?: string) => boolean;
 declare const createLinksFromText: <T extends string, R extends unknown>(text: string, callback: (key: T, value: string) => R) => (string | R)[];
 
 /**
+ * Сравнивает два объекта на глубокое равенство, включая массивы (с учетом порядка).
+ *
+ * @example
+ * const obj1 = { a: 1, b: { c: 2 } };
+ * const obj2 = { a: 1, b: { c: 2 } };
+ * comparison(obj1, obj2); // return: true
+ *
+ * @example
+ * const obj3 = { a: 1, b: { c: 2 } };
+ * const obj4 = { a: 1, b: { c: 3 } };
+ * comparison(obj3, obj4); // return: false
+ *
+ * @example
+ * const arr1 = [1, 2, 3];
+ * const arr2 = [1, 2, 3];
+ * comparison({ arr: arr1 }, { arr: arr2 }); // return: true
+ *
+ * @example
+ * const arr3 = [1, 2, 3];
+ * const arr4 = [3, 2, 1];
+ * comparison({ arr: arr3 }, { arr: arr4 }); // return: false (порядок важен)
+ */
+declare const comparison: <VALUE>(prev: VALUE, next: VALUE) => boolean;
+
+/**
  * @returns [r,g,b]
  */
 declare const HSVtoRGB: (h: number, s: number, v: number) => [number, number, number];
@@ -96,4 +121,4 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
-export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, copyText, createLinksFromText, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };
+export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };

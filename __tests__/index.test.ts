@@ -10,9 +10,39 @@ import {
   pick,
   timeAgo,
   toShort,
+  comparison,
 } from "../src"
 
 describe("Utils", () => {
+  it("comparison", async () => {
+    expect(comparison({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } })).toEqual(
+      true,
+    )
+
+    expect(comparison({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 3 } })).toEqual(
+      false,
+    )
+    expect(
+      comparison({ a: 1, b: { c: 2 } }, { a: 1, b: { c: { c: 3 } } }),
+    ).toEqual(false)
+
+    expect(comparison([1, 2, 3], [1, 2, 3])).toEqual(true)
+
+    expect(comparison([1, 2, 3], [2, 1, 3])).toEqual(false)
+
+    expect(
+      comparison({ a: 1, b: { c: [1, 2, 3] } }, { a: 1, b: { c: [1, 2, 3] } }),
+    ).toEqual(true)
+
+    expect(
+      comparison({ a: 1, b: { c: [1, 2, 3] } }, { a: 1, b: { c: [2, 1, 3] } }),
+    ).toEqual(false)
+
+    expect(comparison("1", "1")).toEqual(true)
+    expect(comparison(1, "1" as any)).toEqual(false)
+    expect(comparison(1, 1)).toEqual(true)
+  })
+
   it("clamp", async () => {
     expect(clamp(100, 50, 100)).toEqual(100)
     expect(clamp(75, 50, 100)).toEqual(75)

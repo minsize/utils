@@ -27,4 +27,6 @@ yarn add @minsize/utils
 | `HSVtoRGB`            | The function converts color from HSV color model (hue, saturation, brightness) to RGB color model (red, green, blue).         |
 | `RGBtoHEX`            | The function converts color from the RGB color model (red, green, blue) to hexadecimal format (HEX).                          |
 | `RGBtoHSV`            | The function converts color from the RGB (red, green, blue) color model to the HSV (hue, saturation, brightness) color model. |
+| `HEXtoRGB`            | The function converts color from hexadecimal format (HEX) to the RGB color model (red, green, blue).                          |
+| `comparison`          | Compares two objects for deep equality, including arrays (order-sensitive).                                                   |
 
