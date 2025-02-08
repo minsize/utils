@@ -26,6 +26,20 @@ describe("Utils", () => {
       comparison({ a: 1, b: { c: 2 } }, { a: 1, b: { c: { c: 3 } } }),
     ).toEqual(false)
 
+    expect(
+      comparison(
+        { a: 1, b: { c: [{ a: 1, b: { c: 2 } }, [{ a: 1, b: { c: 2 } }]] } },
+        { a: 1, b: { c: [{ a: 1, b: { c: 2 } }, [{ a: 1, b: { c: 2 } }]] } },
+      ),
+    ).toEqual(true)
+
+    expect(
+      comparison(
+        { a: 1, b: { c: [{ a: 1, b: { c: 2 } }, [{ a: 1, b: { c: 2 } }]] } },
+        { a: 1, b: { c: [{ a: 1, b: { c: 2 } }, [{ a: 2, b: { c: 2 } }]] } },
+      ),
+    ).toEqual(false)
+
     expect(comparison([1, 2, 3], [1, 2, 3])).toEqual(true)
 
     expect(comparison([1, 2, 3], [2, 1, 3])).toEqual(false)
