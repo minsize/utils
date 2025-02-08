@@ -108,6 +108,14 @@ declare const createLinksFromText: <T extends string, R extends unknown>(text: s
 declare const comparison: <VALUE>(prev: VALUE, next: VALUE) => boolean;
 
 /**
+ * Генерирует уникальный ключ для произвольного JavaScript объекта, используя хеширование (без внешних библиотек).
+ *
+ * @param {any} obj Произвольный JavaScript объект (string, number, array, object, итд.).
+ * @returns {string} Строка, представляющая собой уникальный ключ (хеш) для переданного объекта.
+ */
+declare const generateUniqueKey: <VALUE extends unknown>(obj: VALUE) => string;
+
+/**
  * @returns [r,g,b]
  */
 declare const HSVtoRGB: (h: number, s: number, v: number) => [number, number, number];
@@ -121,4 +129,4 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
-export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };
+export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };

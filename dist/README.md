@@ -29,4 +29,5 @@ yarn add @minsize/utils
 | `RGBtoHSV`            | The function converts color from the RGB (red, green, blue) color model to the HSV (hue, saturation, brightness) color model. |
 | `HEXtoRGB`            | The function converts color from hexadecimal format (HEX) to the RGB color model (red, green, blue).                          |
 | `comparison`          | Compares two objects for deep equality, including arrays (order-sensitive).                                                   |
+| `generateUniqueKey`   | Generates a unique key for an arbitrary JavaScript object using hashing                                                       |
 
