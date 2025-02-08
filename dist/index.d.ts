@@ -94,4 +94,6 @@ declare const RGBtoHEX: (r: number, g: number, b: number) => string;
  */
 declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, number];
 
-export { HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, copyText, createLinksFromText, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };
+declare const HEXtoRGB: (hex: string) => [number, number, number];
+
+export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, copyText, createLinksFromText, decWord, formatNumber, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort };
