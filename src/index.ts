@@ -15,6 +15,7 @@ export { default as copyText } from "./utils/copyText"
 export { default as createLinksFromText } from "./utils/createLinksFromText"
 export { default as comparison } from "./utils/comparison"
 export { default as generateUniqueKey } from "./utils/generateUniqueKey"
+export { default as unlink } from "./utils/unlink"
 
 export { default as HSVtoRGB } from "./utils/colors/HSVtoRGB"
 export { default as RGBtoHEX } from "./utils/colors/RGBtoHEX"

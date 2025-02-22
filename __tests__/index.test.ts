@@ -11,6 +11,7 @@ import {
   timeAgo,
   toShort,
   comparison,
+  unlink,
 } from "../src"
 
 describe("Utils", () => {
@@ -55,6 +56,71 @@ describe("Utils", () => {
     expect(comparison("1", "1")).toEqual(true)
     expect(comparison(1, "1" as any)).toEqual(false)
     expect(comparison(1, 1)).toEqual(true)
+    expect(
+      comparison(
+        new Map([
+          [1, 1],
+          [2, 2],
+        ]),
+        new Map([
+          [1, 1],
+          [2, 2],
+        ]),
+      ),
+    ).toEqual(true)
+
+    expect(
+      comparison(
+        new Map([
+          [1, 1],
+          [2, 2],
+        ]),
+        new Map([
+          [1, 1],
+          [2, 4],
+        ]),
+      ),
+    ).toEqual(false)
+
+    expect(
+      comparison(
+        new Map([
+          [1, { id: 1 }],
+          [2, { id: 2 }],
+        ]),
+        new Map([
+          [1, { id: 2 }],
+          [2, { id: 1 }],
+        ]),
+      ),
+    ).toEqual(false)
+
+    expect(
+      comparison(
+        new Map([
+          [1, { id: 1 }],
+          [2, { id: 2 }],
+        ]),
+        new Map([
+          [1, { id: 1 }],
+          [2, { id: 2 }],
+        ]),
+      ),
+    ).toEqual(true)
+  })
+  it("unlink", async () => {
+    const data = {
+      id: 1,
+      history: new Map([
+        [1, 2],
+        [2, 1],
+      ]),
+    }
+
+    const data2 = unlink(data)
+    data.id = 2
+
+    expect(comparison(data2, data)).toEqual(false)
   })
 
   it("clamp", async () => {

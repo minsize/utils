@@ -33,6 +33,13 @@ const comparison = <VALUE>(prev: VALUE, next: VALUE): boolean => {
     return prev === next
   }
 
+  if (
+    Object.prototype.toString.call(prev) === "[object Map]" &&
+    Object.prototype.toString.call(next) === "[object Map]"
+  ) {
+    return comparisonMap(prev as any, next as any)
+  }
+
   const keysPrev = Object.keys(prev)
 
   if (keysPrev.length !== Object.keys(next).length) return false
@@ -52,6 +59,26 @@ const comparison = <VALUE>(prev: VALUE, next: VALUE): boolean => {
         }
       }
     } else if (!comparison(valuePrev, valueNext)) {
+      return false
+    }
+  }
+
+  return true
+}
+
+const comparisonMap = <VALUE extends Map<unknown, unknown>>(
+  prev: VALUE,
+  next: VALUE,
+): boolean => {
+  if (prev.size !== next.size) {
+    return false
+  }
+
+  for (const [key, value] of prev) {
+    if (!next.has(key)) {
+      return false
+    }
+    if (!comparison(next.get(key), value)) {
       return false
     }
   }
