@@ -24,8 +24,7 @@ const textParserUrl = (
     new RegExp(
       `((?:https?(?::\/\/))${
         requireProtocol ? "" : "?"
-      }(?:www\.)?[a-zA-Z0-9-_\S]+(?:\\.[a-zA-Z0-9]{2,})(?:[-a-zA-Z0-9:%_+.~#?&//=@]*))`,
-      "gi", // Add 'gi' flags for global and case-insensitive matching
+      }(?:www\.)?[a-zA-Z0-9-_\S]+(?:\.[a-zA-Z0-9]{2,})(?:[-a-zA-Z0-9:%_+.~#?&//=@]*))`,
     )
 
   const ast: TextToken[] = []
