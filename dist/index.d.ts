@@ -117,6 +117,18 @@ declare const generateUniqueKey: <VALUE extends unknown>(obj: VALUE) => string;
 
 declare const unlink: <VALUE extends unknown>(value: VALUE) => VALUE;
 
+interface TextParserOptions {
+    onToken?: (token: TextToken) => TextToken;
+    requireProtocol?: boolean;
+    regex?: RegExp;
+}
+type TextTokenType = "raw" | "url";
+interface TextToken {
+    type: TextTokenType;
+    value: string;
+}
+declare const textParserUrl: (input: string, options?: TextParserOptions) => TextToken[];
+
 /**
  * @returns [r,g,b]
  */
@@ -131,4 +143,4 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
-export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, isType, omit, pick, random, shuffle, sleep, timeAgo, toShort, unlink };
+export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, isType, omit, pick, random, shuffle, sleep, textParserUrl, timeAgo, toShort, unlink };
