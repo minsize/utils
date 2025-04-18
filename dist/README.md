@@ -7,27 +7,29 @@ npm i @minsize/utils
 yarn add @minsize/utils
 ```
 
-| Function              | Description                                                                                                                   |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `chunks`              | Splits an array into pieces of the given size.                                                                                |
-| `clamp`               | Limits the number to the specified minimum and maximum value.                                                                 |
-| `decWord`             | The function returns a string representing the correct ending of the word depending on the number.                            |
-| `alignTo`             | The function returns an aligned number.                                                                                       |
-| `toShort`             | The function returns a string representing the number in short form.                                                          |
-| `timeAgo`             | The function returns a string describing the time elapsed since timestamp.                                                    |
-| `formatNumber`        | Formats a number into a delimited string.                                                                                     |
-| `shuffle`             | Shuffles the elements of an array in random order.                                                                            |
-| `random`              | Generates a random number within the specified range.                                                                         |
-| `isType`              | Checks if the value is of the specified type.                                                                                 |
-| `omit`                | Returns a new object with no specified keys.                                                                                  |
-| `pick`                | Returns a new object with the selected keys.                                                                                  |
-| `sleep`               | Waits for the specified number of milliseconds.                                                                               |
-| `copyText`            | The function allows you to copy text to the clipboard.                                                                        |
-| `createLinksFromText` | The function returns an array containing text fragments and the results of the callback call for each block.                  |
-| `HSVtoRGB`            | The function converts color from HSV color model (hue, saturation, brightness) to RGB color model (red, green, blue).         |
-| `RGBtoHEX`            | The function converts color from the RGB color model (red, green, blue) to hexadecimal format (HEX).                          |
-| `RGBtoHSV`            | The function converts color from the RGB (red, green, blue) color model to the HSV (hue, saturation, brightness) color model. |
-| `HEXtoRGB`            | The function converts color from hexadecimal format (HEX) to the RGB color model (red, green, blue).                          |
-| `comparison`          | Compares two objects for deep equality, including arrays (order-sensitive).                                                   |
-| `generateUniqueKey`   | Generates a unique key for an arbitrary JavaScript object using hashing                                                       |
-
+| Функция               | Описание                                                                                                        |
+| --------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `chunks`              | Разбивает массив на части заданного размера.                                                                    |
+| `clamp`               | Ограничивает число указанным минимальным и максимальным значением.                                              |
+| `decWord`             | Функция возвращает строку с правильным окончанием слова в зависимости от числа.                                 |
+| `alignTo`             | Функция возвращает выровненное число.                                                                           |
+| `toShort`             | Функция возвращает строку, представляющую число в сокращенной форме.                                            |
+| `timeAgo`             | Функция возвращает строку, описывающую время, прошедшее с момента отметки времени.                              |
+| `formatNumber`        | Форматирует число в виде строки с разделителями.                                                                |
+| `shuffle`             | Перемешивает элементы массива в случайном порядке.                                                              |
+| `random`              | Генерирует случайное число в указанном диапазоне.                                                               |
+| `randomByWeight`      | Выбирает случайный элемент на основе весов из набора элементов с весами.                                        |
+| `isType`              | Проверяет, является ли значение указанного типа.                                                                |
+| `omit`                | Возвращает новый объект без указанных ключей.                                                                   |
+| `pick`                | Возвращает новый объект с выбранными ключами.                                                                   |
+| `sleep`               | Ожидает указанное количество миллисекунд.                                                                       |
+| `copyText`            | Функция позволяет копировать текст в буфер обмена.                                                              |
+| `createLinksFromText` | Функция возвращает массив, содержащий фрагменты текста и результаты вызова колбэка для каждого блока.           |
+| `HSVtoRGB`            | Функция преобразует цвет из модели HSV (оттенок, насыщенность, яркость) в модель RGB (красный, зеленый, синий). |
+| `RGBtoHEX`            | Функция преобразует цвет из модели RGB (красный, зеленый, синий) в шестнадцатеричный формат (HEX).              |
+| `RGBtoHSV`            | Функция преобразует цвет из модели RGB (красный, зеленый, синий) в модель HSV (оттенок, насыщенность, яркость). |
+| `HEXtoRGB`            | Функция преобразует цвет из шестнадцатеричного формата (HEX) в модель RGB (красный, зеленый, синий).            |
+| `comparison`          | Сравнивает два объекта на глубокое равенство, включая массивы (с учетом порядка).                               |
+| `generateUniqueKey`   | Генерирует уникальный ключ для произвольного JavaScript объекта с использованием хэширования.                   |
+| `unlink`              | Удаляет связь или ссылку между элементами или объектами.                                                        |
+| `textParserUrl`       | Функция разбирает текст для извлечения и обработки URL.                                                         |

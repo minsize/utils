@@ -40,7 +40,16 @@ declare const formatNumber: (number: number) => string;
  */
 declare const shuffle: <T>(array: T[]) => T[];
 
-declare const random: (min: number, max: number) => number;
+declare function random(min: number, max: number, seed?: number): number;
+
+/**
+ * Функция для выбора случайного элемента из объекта items на основе весов, с возможностью использования seed для случайности.
+ * @template Items
+ * @param {Items} items - Объект, представляющий элементы и их веса.
+ * @param {number} [seed] - Необязательное значение для начального состояния генерации случайных чисел.
+ * @returns {string} Выбор случайного элемента на основе указанных весов.
+ */
+declare function randomByWeight<Items extends Record<string, number>>(items: Items, seed?: number): Extract<keyof Items, string>;
 
 type Type = "string" | "number" | "bigint" | "nan" | "boolean" | "object" | "array" | "function" | "null" | "undefined" | "symbol" | "date" | "regexp" | "error" | "unknown" | "map" | "set" | "weakmap" | "weakset" | "promise" | "buffer";
 /**
@@ -143,4 +152,4 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
-export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, isType, omit, pick, random, shuffle, sleep, textParserUrl, timeAgo, toShort, unlink };
+export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, isType, omit, pick, random, randomByWeight, shuffle, sleep, textParserUrl, timeAgo, toShort, unlink };
