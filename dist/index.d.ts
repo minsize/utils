@@ -38,7 +38,7 @@ declare const formatNumber: (number: number) => string;
  * shuffle([1,2,3]) // return: [2,1,3]
  * shuffle([1,2,3]) // return: [3,1,2]
  */
-declare const shuffle: <T>(array: T[]) => T[];
+declare const shuffle: <T>(array: T[], seed?: number) => T[];
 
 declare function random(min: number, max: number, seed?: number): number;
 
@@ -139,6 +139,58 @@ interface TextToken {
 declare const textParserUrl: (input: string, options?: TextParserOptions) => TextToken[];
 
 /**
+ * Функция мемоизации, которая сохраняет результаты вызовов функции `fn` с определенными аргументами.
+ * @template F - Параметр типа для функции, которая принимается на вход.
+ * @param {F} fn - Функция, результат выполнения которой необходимо запоминать.
+ * @returns {F} - Меморизованная версия переданной функции.
+ */
+declare function memoize<F extends (...args: any[]) => any>(fn: F): F;
+
+/**
+ * Повторяет выполнение асинхронной функции до тех пор, пока она не завершится успешно или не будет достигнуто максимальное количество попыток.
+ * @template T - Тип результата, который возвращает функция.
+ * @param {() => Promise<T>} fn - Асинхронная функция, которую нужно выполнять повторно.
+ * @param {number} retries - Максимальное количество попыток.
+ * @param {number} delay - Интервал между попытками в миллисекундах.
+ * @returns {Promise<T>} - Возвращает Promise с результатом выполнения функции или ошибкой после всех попыток.
+ */
+declare function retry<T>(fn: () => Promise<T>, retries: number, delay: number): Promise<T>;
+
+/**
+ * Возвращает новый массив, содержащий только уникальные элементы из исходного массива.
+ * @param {T[]} array - Исходный массив.
+ * @returns {T[]} - Массив уникальных элементов.
+ */
+declare function unique<T>(array: T[]): T[];
+
+/**
+ * Разбирает строку запроса URL и возвращает объект с параметрами запроса.
+ * @param {string} queryString - Строка запроса, начинающаяся с '?'.
+ * @returns {Record<string, string>} - Объект, представляющий параметры запроса и их значения.
+ */
+declare function parseQueryString<Result extends Record<string, string>>(queryString: string): Result;
+
+/**
+ * Группирует элементы массива по заданному критерию.
+ * @param {T[]} array - Массив элементов, которые нужно сгруппировать.
+ * @param {(item: T) => K} keyGetter - Функция, определяющая ключ группы для каждого элемента.
+ * @returns {Record<string, T[]>} - Объект, где ключами являются результаты keyGetter, а значениями — массивы элементов.
+ */
+declare function groupBy<T, K extends string | number>(array: T[], keyGetter: (item: T) => K): Record<K, T[]>;
+
+type SortDirection = "asc" | "desc";
+type PathImpl<T, Key extends keyof T> = Key extends string ? T[Key] extends Record<string, any> ? Key | `${Key}.${PathImpl<T[Key], keyof T[Key]>}` : Key : never;
+type Path<T> = PathImpl<T, keyof T>;
+/**
+ * Сортирует массив объектов по указанным вложенным ключам и направлениям.
+ * @param array - Массив объектов для сортировки.
+ * @param criteria - Объект, где ключи — путь к полям для сортировки (точечная нотация),
+ * а значения — направления ('asc' или 'desc').
+ * @returns Отсортированный массив.
+ */
+declare function orderBy<T>(array: T[], criteria: Partial<Record<Path<T>, SortDirection>>): T[];
+
+/**
  * @returns [r,g,b]
  */
 declare const HSVtoRGB: (h: number, s: number, v: number) => [number, number, number];
@@ -152,4 +204,4 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
-export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, isType, omit, pick, random, randomByWeight, shuffle, sleep, textParserUrl, timeAgo, toShort, unlink };
+export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };
