@@ -1,13 +1,6 @@
 /**
  *
  * @example
- * chunks(2, [1,2,3,4]) // [[1,2], [3,4]]
- */
-declare const chunks: <T>(count: number, array: T[]) => T[][];
-
-/**
- *
- * @example
  * clamp(10, 1, 10) // return: 10
  * clamp(0, 1, 10) // return: 1
  * clamp(11, 1, 10) // return: 10
@@ -31,14 +24,6 @@ declare const toShort: (number: number, customParts?: string[], fixed?: number) 
 declare const timeAgo: (timestamp: number) => string;
 
 declare const formatNumber: (number: number) => string;
-
-/**
- *
- * @example
- * shuffle([1,2,3]) // return: [2,1,3]
- * shuffle([1,2,3]) // return: [3,1,2]
- */
-declare const shuffle: <T>(array: T[], seed?: number) => T[];
 
 declare function random(min: number, max: number, seed?: number): number;
 
@@ -157,18 +142,40 @@ declare function memoize<F extends (...args: any[]) => any>(fn: F): F;
 declare function retry<T>(fn: () => Promise<T>, retries: number, delay: number): Promise<T>;
 
 /**
- * Возвращает новый массив, содержащий только уникальные элементы из исходного массива.
- * @param {T[]} array - Исходный массив.
- * @returns {T[]} - Массив уникальных элементов.
- */
-declare function unique<T>(array: T[]): T[];
-
-/**
  * Разбирает строку запроса URL и возвращает объект с параметрами запроса.
  * @param {string} queryString - Строка запроса, начинающаяся с '?'.
  * @returns {Record<string, string>} - Объект, представляющий параметры запроса и их значения.
  */
 declare function parseQueryString<Result extends Record<string, string>>(queryString: string): Result;
+
+declare function parseVersionString(versionString: string): {
+    major: number;
+    minor: number;
+    patch: number;
+    prerelease: string | null;
+};
+
+/**
+ *
+ * @example
+ * chunks(2, [1,2,3,4]) // [[1,2], [3,4]]
+ */
+declare const chunks: <T>(count: number, array: T[]) => T[][];
+
+/**
+ *
+ * @example
+ * shuffle([1,2,3]) // return: [2,1,3]
+ * shuffle([1,2,3]) // return: [3,1,2]
+ */
+declare const shuffle: <T>(array: T[], seed?: number) => T[];
+
+/**
+ * Возвращает новый массив, содержащий только уникальные элементы из исходного массива.
+ * @param {T[]} array - Исходный массив.
+ * @returns {T[]} - Массив уникальных элементов.
+ */
+declare function unique<T>(array: T[]): T[];
 
 /**
  * Группирует элементы массива по заданному критерию.
@@ -204,4 +211,4 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
-export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };
+export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };

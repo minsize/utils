@@ -19,6 +19,7 @@ export { default as textParserUrl } from "./utils/textParserUrl"
 export { default as memoize } from "./utils/memoize"
 export { default as retry } from "./utils/retry"
 export { default as parseQueryString } from "./utils/parseQueryString"
+export { default as parseVersionString } from "./utils/parseVersionString"
 
 export { default as chunks } from "./utils/array/chunks"
 export { default as shuffle } from "./utils/array/shuffle"

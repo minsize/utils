@@ -12,6 +12,7 @@ import {
   toShort,
   comparison,
   unlink,
+  parseVersionString,
 } from "../src"
 
 describe("Utils", () => {
@@ -121,6 +122,17 @@ describe("Utils", () => {
     data.id = 2
 
     expect(comparison(data2, data)).toEqual(false)
+  })
+
+  it("parseVersionString", async () => {
+    const version = parseVersionString("1.2.3-test")
+
+    expect(version).toEqual({
+      major: 1,
+      minor: 2,
+      patch: 3,
+      prerelease: "test",
+    })
   })
 
   it("clamp", async () => {
