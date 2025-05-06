@@ -125,12 +125,16 @@ describe("Utils", () => {
   })
 
   it("parseVersionString", async () => {
-    const version = parseVersionString("1.2.3-test")
-
-    expect(version).toEqual({
+    expect(parseVersionString("1.2.3-test")).toEqual({
       major: 1,
       minor: 2,
       patch: 3,
+      prerelease: "test",
+    })
+    expect(parseVersionString("1.*.*-test")).toEqual({
+      major: 1,
+      minor: "*",
+      patch: "*",
       prerelease: "test",
     })
   })

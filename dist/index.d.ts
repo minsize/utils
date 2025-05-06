@@ -149,9 +149,9 @@ declare function retry<T>(fn: () => Promise<T>, retries: number, delay: number):
 declare function parseQueryString<Result extends Record<string, string>>(queryString: string): Result;
 
 declare function parseVersionString(versionString: string): {
-    major: number;
-    minor: number;
-    patch: number;
+    major: number | "*";
+    minor: number | "*";
+    patch: number | "*";
     prerelease: string | null;
 };
 
