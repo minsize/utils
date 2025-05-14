@@ -72,7 +72,7 @@ declare const sleep: (time: number) => Promise<unknown>;
  * @example
  * copyText("Hello world") // return: boolean
  */
-declare const copyText: (text?: string) => boolean;
+declare const copyText: (text?: string) => void;
 
 declare const createLinksFromText: <T extends string, R extends unknown>(text: string, callback: (key: T, value: string) => R) => (string | R)[];
 
