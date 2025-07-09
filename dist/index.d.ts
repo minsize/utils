@@ -211,4 +211,40 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
-export { HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };
+type Callback = (...args: unknown[]) => unknown;
+declare class EventEmitter {
+    e: Record<string, Callback[]>;
+    /**
+     * Подписка на событие
+     * @param name - Имя события
+     * @param callback - Функция-обработчик
+     * @returns Функция для отписки
+     */
+    on(name: string, callback: Callback): () => void;
+    /**
+     * Отписка от события
+     * @param name - Имя события
+     * @param callback - Функция-обработчик для удаления
+     */
+    off(name: string, callback: Callback): void;
+    /**
+     * Инициация события
+     * @param name - Имя события
+     * @param args - Аргументы для обработчиков
+     */
+    emit(name: string, ...args: unknown[]): void;
+    /**
+     * Подписка на событие один раз
+     * @param name - Имя события
+     * @param callback - Функция-обработчик
+     * @returns Функция для отписки
+     */
+    once(name: string, callback: Callback): () => void;
+    /**
+     * Полная очистка всех подписчиков
+     * @param name - Опциональное имя события (если не указано - очищаем все)
+     */
+    clear(name?: string): void;
+}
+
+export { EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };

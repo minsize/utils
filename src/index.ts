@@ -31,3 +31,5 @@ export { default as HSVtoRGB } from "./utils/colors/HSVtoRGB"
 export { default as RGBtoHEX } from "./utils/colors/RGBtoHEX"
 export { default as RGBtoHSV } from "./utils/colors/RGBtoHSV"
 export { default as HEXtoRGB } from "./utils/colors/HEXtoRGB"
+
+export { default as EventEmitter } from "./utils/evetemitter"
