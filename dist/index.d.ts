@@ -211,8 +211,8 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
-type Callback = (...args: unknown[]) => unknown;
-declare class EventEmitter {
+type Callback<T extends unknown[] = unknown[]> = (...args: T) => void;
+declare class EventEmitter<TEvents extends Record<string, unknown[]>> {
     e: Record<string, Callback[]>;
     /**
      * Подписка на событие
@@ -220,31 +220,31 @@ declare class EventEmitter {
      * @param callback - Функция-обработчик
      * @returns Функция для отписки
      */
-    on(name: string, callback: Callback): () => void;
+    on<TEventName extends keyof TEvents & string>(name: TEventName, callback: Callback<TEvents[TEventName]>): () => void;
     /**
      * Отписка от события
      * @param name - Имя события
      * @param callback - Функция-обработчик для удаления
      */
-    off(name: string, callback: Callback): void;
+    off<TEventName extends keyof TEvents & string>(name: TEventName, callback: Callback<TEvents[TEventName]>): void;
     /**
      * Инициация события
      * @param name - Имя события
      * @param args - Аргументы для обработчиков
      */
-    emit(name: string, ...args: unknown[]): void;
+    emit<TEventName extends keyof TEvents & string>(name: TEventName, ...args: TEvents[TEventName]): void;
     /**
      * Подписка на событие один раз
      * @param name - Имя события
      * @param callback - Функция-обработчик
      * @returns Функция для отписки
      */
-    once(name: string, callback: Callback): () => void;
+    once<TEventName extends keyof TEvents & string>(name: TEventName, callback: Callback<TEvents[TEventName]>): () => void;
     /**
      * Полная очистка всех подписчиков
      * @param name - Опциональное имя события (если не указано - очищаем все)
      */
-    clear(name?: string): void;
+    clear<TEventName extends keyof TEvents & string>(name?: TEventName): void;
 }
 
 export { EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };

@@ -1,7 +1,7 @@
 import { EventEmitter } from "../src"
 
 describe("EventEmitter", () => {
-  let emitter: EventEmitter
+  let emitter: EventEmitter<Record<string, any>>
 
   beforeEach(() => {
     emitter = new EventEmitter()
