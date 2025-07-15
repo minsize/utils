@@ -22,11 +22,21 @@ const elasticClamp = (
 ) => {
   const { threshold = 50, resistance = 0.2 } = options
 
-  return value < min
-    ? min - threshold * (1 - Math.exp(((min - value) * resistance) / threshold))
-    : value > max
-    ? max + threshold * (1 - Math.exp(((value - max) * resistance) / threshold))
-    : value
+  if (value < min) {
+    const overPull = min - value
+    return (
+      min - threshold * (1 - Math.exp((-overPull * resistance) / threshold))
+    )
+  }
+
+  if (value > max) {
+    const overPull = value - max
+    return (
+      max + threshold * (1 - Math.exp((-overPull * resistance) / threshold))
+    )
+  }
+
+  return value
 }
 
 export default elasticClamp
