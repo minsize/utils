@@ -279,7 +279,7 @@ type PartialUpdateObject<T extends any[]> = {
 };
 type Options<T extends any[]> = {
     delay: number;
-    equals?: (...args: T) => boolean;
+    equals?: (prev: T, next: T) => boolean;
 };
 /**
  * Класс для отложенного выполнения функции с возможностью
@@ -290,6 +290,7 @@ declare class DebouncedFunction<T extends any[]> {
     private readonly o;
     private tId;
     private s;
+    private c;
     constructor(callback: (...args: T) => void, options: Options<T>);
     /**
      * Обновляет текущие аргументы с помощью функции обновления
