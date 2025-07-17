@@ -34,3 +34,4 @@ export { default as RGBtoHSV } from "./utils/colors/RGBtoHSV"
 export { default as HEXtoRGB } from "./utils/colors/HEXtoRGB"
 
 export { default as EventEmitter } from "./utils/evetemitter"
+export { default as DebouncedFunction } from "./utils/debouncedFunction"

@@ -265,4 +265,47 @@ declare class EventEmitter<TEvents extends Record<string, unknown[]>> {
     clear<TEventName extends keyof TEvents & string>(name?: TEventName): void;
 }
 
-export { EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };
+/**
+ * Функция для обновления текущих значений
+ * Принимает текущие значения и возвращает новые
+ */
+type UpdaterFunction<T extends any[]> = (...current: Partial<T>) => T;
+/**
+ * Объект для частичного обновления значений
+ * Каждый ключ соответствует частичному обновлению элемента массива
+ */
+type PartialUpdateObject<T extends any[]> = {
+    [K in keyof T]?: T[K] extends object ? Partial<T[K]> : T[K];
+};
+/**
+ * Класс для отложенного выполнения функции с возможностью
+ * накопления и обновления аргументов
+ */
+declare class DebouncedFunction<T extends any[]> {
+    private readonly cb;
+    private readonly d;
+    private tId;
+    private s;
+    constructor(callback: (...args: T) => void, delay: number);
+    /**
+     * Обновляет текущие аргументы с помощью функции обновления
+     * @param updater Функция, которая получает текущие значения и возвращает новые
+     */
+    execute(fn: UpdaterFunction<T>): void;
+    /**
+     * Полностью заменяет текущие аргументы новыми значениями
+     * @param args Новые значения аргументов
+     */
+    execute(...args: PartialUpdateObject<T>): void;
+    /**
+     * Немедленно выполняет функцию с текущими аргументами
+     * и сбрасывает сохраненные аргументы
+     */
+    executeImmediately(): void;
+    /**
+     * Отменяет запланированное выполнение функции
+     */
+    cancel(): void;
+}
+
+export { DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };
