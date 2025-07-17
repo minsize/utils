@@ -277,16 +277,20 @@ type UpdaterFunction<T extends any[]> = (...current: Partial<T>) => T;
 type PartialUpdateObject<T extends any[]> = {
     [K in keyof T]?: T[K] extends object ? Partial<T[K]> : T[K];
 };
+type Options<T extends any[]> = {
+    delay: number;
+    equals?: (...args: T) => boolean;
+};
 /**
  * Класс для отложенного выполнения функции с возможностью
  * накопления и обновления аргументов
  */
 declare class DebouncedFunction<T extends any[]> {
     private readonly cb;
-    private readonly d;
+    private readonly o;
     private tId;
     private s;
-    constructor(callback: (...args: T) => void, delay: number);
+    constructor(callback: (...args: T) => void, options: Options<T>);
     /**
      * Обновляет текущие аргументы с помощью функции обновления
      * @param updater Функция, которая получает текущие значения и возвращает новые

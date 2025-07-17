@@ -12,19 +12,24 @@ type PartialUpdateObject<T extends any[]> = {
   [K in keyof T]?: T[K] extends object ? Partial<T[K]> : T[K]
 }
 
+type Options<T extends any[]> = {
+  delay: number
+  equals?: (...args: T) => boolean
+}
+
 /**
  * Класс для отложенного выполнения функции с возможностью
  * накопления и обновления аргументов
  */
 class DebouncedFunction<T extends any[]> {
   private readonly cb: (...args: T) => void
-  private readonly d: number
+  private readonly o: Options<T>
   private tId: NodeJS.Timeout | null = null
   private s: T
 
-  constructor(callback: (...args: T) => void, delay: number) {
+  constructor(callback: (...args: T) => void, options: Options<T>) {
     this.cb = callback
-    this.d = delay
+    this.o = options
     this.s = [] as unknown as T // Инициализация пустым массивом
   }
 
@@ -50,7 +55,7 @@ class DebouncedFunction<T extends any[]> {
       }
     }
 
-    this.tId = setTimeout(this.executeImmediately.bind(this), this.d)
+    this.tId = setTimeout(this.executeImmediately.bind(this), this.o.delay)
   }
 
   /**
@@ -59,7 +64,9 @@ class DebouncedFunction<T extends any[]> {
    */
   executeImmediately(): void {
     this.cancel()
-    this.cb(...this.s)
+    if (!this.o.equals || this.o.equals(...this.s)) {
+      this.cb(...this.s)
+    }
     this.s = [] as unknown as T
   }
 

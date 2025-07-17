@@ -3,9 +3,14 @@ import { DebouncedFunction } from "../src"
 describe("EventEmitter", () => {
   it("replace", async () => {
     const status = await new Promise((resolve) => {
-      const debounced = new DebouncedFunction((result: string) => {
-        resolve(result === "3")
-      }, 100)
+      const debounced = new DebouncedFunction(
+        (result: string) => {
+          resolve(result === "3")
+        },
+        {
+          delay: 100,
+        },
+      )
 
       debounced.execute("1")
       debounced.execute("2")
@@ -20,7 +25,10 @@ describe("EventEmitter", () => {
         (result: { id?: number; name?: string }) => {
           resolve(result.id === 3 && result.name === "test")
         },
-        100,
+
+        {
+          delay: 100,
+        },
       )
 
       debounced.execute((value) => {
@@ -45,11 +53,16 @@ describe("EventEmitter", () => {
   it("executeImmediately", async () => {
     const startTime = new Date(Date.now())
     const status = await new Promise((resolve) => {
-      const debounced = new DebouncedFunction((result: { name?: string }) => {
-        resolve(
-          result.name === "test" && startTime.getTime() + 100 > Date.now(),
-        )
-      }, 10_000)
+      const debounced = new DebouncedFunction(
+        (result: { name?: string }) => {
+          resolve(
+            result.name === "test" && startTime.getTime() + 100 > Date.now(),
+          )
+        },
+        {
+          delay: 10_000,
+        },
+      )
 
       debounced.execute((value) => {
         if (!value) value = {}
@@ -67,11 +80,16 @@ describe("EventEmitter", () => {
   it("timeout", async () => {
     const startTime = new Date(Date.now())
     const status = await new Promise((resolve) => {
-      const debounced = new DebouncedFunction((result: { name?: string }) => {
-        resolve(
-          result.name === "test" && startTime.getTime() + 3_200 > Date.now(),
-        )
-      }, 2_000)
+      const debounced = new DebouncedFunction(
+        (result: { name?: string }) => {
+          resolve(
+            result.name === "test" && startTime.getTime() + 3_200 > Date.now(),
+          )
+        },
+        {
+          delay: 2_000,
+        },
+      )
 
       debounced.execute((value) => {
         if (!value) value = {}
