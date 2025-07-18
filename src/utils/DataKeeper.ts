@@ -2,13 +2,10 @@ import comparison from "./comparison"
 import unlink from "./unlink"
 
 class DataKeeper<VALUE extends unknown> {
-  private getter: () => VALUE
   initValue: VALUE
   currentValue: VALUE
 
-  constructor(getter: () => VALUE) {
-    const value = getter()
-    this.getter = getter
+  constructor(value: VALUE) {
     this.initValue = unlink(value)
     this.currentValue = value
   }
@@ -17,8 +14,7 @@ class DataKeeper<VALUE extends unknown> {
     this.currentValue = updater(this.currentValue)
   }
 
-  reset() {
-    const value = this.getter()
+  reset(value: VALUE) {
     this.initValue = unlink(value)
     this.currentValue = value
   }

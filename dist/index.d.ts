@@ -314,12 +314,11 @@ declare class DebouncedFunction<T extends any[]> {
 }
 
 declare class DataKeeper<VALUE extends unknown> {
-    private getter;
     initValue: VALUE;
     currentValue: VALUE;
-    constructor(getter: () => VALUE);
+    constructor(value: VALUE);
     setter(updater: (value: VALUE) => VALUE): void;
-    reset(): void;
+    reset(value: VALUE): void;
     isModified(): boolean;
 }
 

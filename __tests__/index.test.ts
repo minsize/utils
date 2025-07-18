@@ -23,7 +23,7 @@ describe("DataKeeper", () => {
     let keeper: DataKeeper<number>
 
     beforeEach(() => {
-      keeper = new DataKeeper(() => 42)
+      keeper = new DataKeeper(42)
     })
 
     it("Должен инициализироваться с правильным значением", () => {
@@ -39,7 +39,7 @@ describe("DataKeeper", () => {
 
     it("Должен сбрасывать значение при reset", () => {
       keeper.setter((val) => val * 2)
-      keeper.reset()
+      keeper.reset(42)
       expect(keeper.currentValue).toBe(42)
       expect(keeper.isModified()).toBe(false)
     })
@@ -50,7 +50,7 @@ describe("DataKeeper", () => {
     let keeper: DataKeeper<{ name: string; age: number }>
 
     beforeEach(() => {
-      keeper = new DataKeeper(() => ({ name: "Алиса", age: 25 }))
+      keeper = new DataKeeper({ name: "Алиса", age: 25 })
     })
 
     it("Должен обнаруживать изменение поля объекта", () => {
@@ -66,7 +66,7 @@ describe("DataKeeper", () => {
 
     it("Должен сбрасывать объект к начальному состоянию", () => {
       keeper.setter((val) => ({ name: "Боб", age: 30 }))
-      keeper.reset()
+      keeper.reset({ name: "Алиса", age: 25 })
       expect(keeper.currentValue).toEqual({ name: "Алиса", age: 25 })
     })
   })
@@ -76,7 +76,7 @@ describe("DataKeeper", () => {
     let keeper: DataKeeper<number[]>
 
     beforeEach(() => {
-      keeper = new DataKeeper(() => [1, 2, 3])
+      keeper = new DataKeeper([1, 2, 3])
     })
 
     it("Должен обнаруживать изменение массива", () => {
@@ -96,7 +96,7 @@ describe("DataKeeper", () => {
     let keeper: DataKeeper<{ user: { id: number; name: string } }>
 
     beforeEach(() => {
-      keeper = new DataKeeper(() => ({ user: { id: 1, name: "Алиса" } }))
+      keeper = new DataKeeper({ user: { id: 1, name: "Алиса" } })
     })
 
     it("Должен обнаруживать изменение вложенного поля", () => {
@@ -118,7 +118,7 @@ describe("DataKeeper", () => {
         ["a", 1],
         ["b", 2],
       ])
-      keeper = new DataKeeper(() => new Map(initialMap))
+      keeper = new DataKeeper(new Map(initialMap))
     })
 
     it("Должен корректно инициализировать Map", () => {
@@ -150,7 +150,7 @@ describe("DataKeeper", () => {
         newMap.set("c", 3)
         return newMap
       })
-      keeper.reset()
+      keeper.reset(new Map(initialMap))
       expect(Array.from(keeper.currentValue.entries())).toEqual([
         ["a", 1],
         ["b", 2],
@@ -165,7 +165,7 @@ describe("DataKeeper", () => {
 
     beforeEach(() => {
       initialSet = new Set([1, 2, 3])
-      keeper = new DataKeeper(() => new Set(initialSet))
+      keeper = new DataKeeper(new Set(initialSet))
     })
 
     it("Должен корректно инициализировать Set", () => {
@@ -194,7 +194,7 @@ describe("DataKeeper", () => {
         newSet.add(4)
         return newSet
       })
-      keeper.reset()
+      keeper.reset(new Set(initialSet))
       expect(Array.from(keeper.currentValue.values())).toEqual([1, 2, 3])
     })
   })
