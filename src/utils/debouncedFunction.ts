@@ -1,5 +1,3 @@
-import comparison from "./comparison"
-
 /**
  * Функция для обновления текущих значений
  * Принимает текущие значения и возвращает новые
@@ -16,7 +14,6 @@ type PartialUpdateObject<T extends any[]> = {
 
 type Options<T extends any[]> = {
   delay: number
-  equals?: (prev: T, next: T) => boolean
 }
 
 /**
@@ -28,13 +25,11 @@ class DebouncedFunction<T extends any[]> {
   private readonly o: Options<T>
   private tId: NodeJS.Timeout | null = null
   private s: T
-  private c: T
 
   constructor(callback: (...args: T) => void, options: Options<T>) {
     this.cb = callback
     this.o = options
     this.s = [] as unknown as T // Инициализация пустым массивом
-    this.c = [] as unknown as T // Инициализация пустым массивом (Самые первые значения)
   }
 
   /**
@@ -58,7 +53,6 @@ class DebouncedFunction<T extends any[]> {
         this.s[i] = args[i] as T[number]
       }
     }
-
     this.tId = setTimeout(this.executeImmediately.bind(this), this.o.delay)
   }
 
@@ -68,22 +62,7 @@ class DebouncedFunction<T extends any[]> {
    */
   executeImmediately(): void {
     this.cancel()
-
-    var equals = this.o.equals?.(this.c, this.s)
-
-    if (equals === undefined) {
-      for (let i = 0; i < this.cb.length; i++) {
-        equals = comparison(this.c[i], this.s[i])
-        if (!equals) {
-          continue
-        }
-      }
-    }
-
-    if (!equals) {
-      this.cb(...this.s)
-    }
-
+    this.cb(...this.s)
     this.s = [] as unknown as T
   }
 
@@ -99,10 +78,3 @@ class DebouncedFunction<T extends any[]> {
 }
 
 export default DebouncedFunction
-
-const test = new DebouncedFunction((value1: string, value2: number) => {}, {
-  delay: 1,
-  equals: ([prevvalue1, prevvalue2], [value1, value2]) => {
-    return false
-  },
-})

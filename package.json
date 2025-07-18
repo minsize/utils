@@ -1,6 +1,7 @@
 {
   "scripts": {
     "build": "rollup --config config/rollup.config.ts --configPlugin @rollup/plugin-typescript && npm run test",
+    "benchmark": "ts-node __banchmark__/index.ts",
     "test": "jest --config jest.config.ts"
   },
   "devDependencies": {
@@ -26,6 +27,8 @@
     "typescript": "latest"
   },
   "dependencies": {
+    "@types/benchmark": "^2.1.5",
+    "benchmark": "^2.1.4",
     "rollup-plugin-typescript-paths": "^1.5.0"
   }
 }

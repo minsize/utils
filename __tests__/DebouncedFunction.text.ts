@@ -111,4 +111,46 @@ describe("EventEmitter", () => {
     })
     expect(status).toEqual(true)
   })
+
+  // it("don`t update", async () => {
+  //   const status = await new Promise((resolve) => {
+  //     const debounced = new DebouncedFunction(
+  //       (result: { name?: string }) => {
+  //         resolve(false)
+  //       },
+  //       {
+  //         delay: 2_000,
+  //       },
+  //     )
+
+  //     debounced.execute((value) => {
+  //       if (!value) value = {}
+
+  //       value.name = "test2"
+
+  //       return [value]
+  //     })
+
+  //     debounced.execute((value) => {
+  //       if (!value) value = {}
+
+  //       value.name = "test3"
+
+  //       return [value]
+  //     })
+
+  //     debounced.execute((value) => {
+  //       if (!value) value = {}
+
+  //       value.name = "test2"
+
+  //       return [value]
+  //     })
+
+  //     setTimeout(() => {
+  //       resolve(true)
+  //     }, 3_000)
+  //   })
+  //   expect(status).toEqual(true)
+  // })
 })

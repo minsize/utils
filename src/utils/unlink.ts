@@ -1,33 +1,26 @@
-type isType =
-  | "[object Object]"
-  | "[object Array]"
-  | "[object String]"
-  | "[object Number]"
-  | "[object BigInt]"
-  | "[object Map]"
-  | "[object Set]"
-const isType = <T>(item: T) => {
-  return Object.prototype.toString.call(item) as isType
-}
+import isType from "./isType"
 
-const unlinkOther = <VALUE extends unknown>(
-  value: VALUE,
-  type?: isType,
-): VALUE => {
-  switch (type || isType(type)) {
-    case "[object Number]": {
+const unlink = <VALUE extends any>(value: VALUE): VALUE => {
+  switch (isType(value)) {
+    case "array": {
+      return unlinkArray(value as any) as VALUE
+    }
+    case "object": {
+      return unlinkObject(value as any) as VALUE
+    }
+    case "number": {
       return Number(String(value)) as VALUE
     }
-    case "[object String]": {
+    case "string": {
       return String(value) as VALUE
     }
-    case "[object BigInt]": {
+    case "bigint": {
       return BigInt(String(value) as any) as VALUE
     }
-    case "[object Map]": {
+    case "map": {
       return new Map(value as any) as VALUE
     }
-    case "[object Set]": {
+    case "set": {
       return new Set(value as any) as VALUE
     }
     default: {
@@ -38,16 +31,8 @@ const unlinkOther = <VALUE extends unknown>(
 
 const unlinkArray = <Array extends unknown>(array: Array[]): Array[] => {
   const newArray = []
-
   for (const item of array) {
-    const type = isType(item)
-    if (type === "[object Array]") {
-      newArray.push(unlinkArray(item as Array[]))
-    } else if (type === "[object Object]") {
-      newArray.push(unlinkObject(item as any))
-    } else {
-      newArray.push(unlinkOther(item))
-    }
+    newArray.push(unlink(item))
   }
   return newArray as Array[]
 }
@@ -57,33 +42,11 @@ const unlinkObject = <VALUE extends Record<string, any>>(
 ): VALUE => {
   const newObject: Record<string, any> = {}
 
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const type = isType(value[key])
-    if (type === "[object Array]") {
-      newObject[key] = unlinkArray(value[key])
-    } else if (type === "[object Object]") {
-      newObject[key] = unlinkObject(value[key])
-    } else {
-      newObject[key] = value[key]
-    }
+  for (const key in value) {
+    newObject[key] = unlink(value[key])
   }
 
   return newObject as VALUE
-}
-
-const unlink = <VALUE extends any>(value: VALUE): VALUE => {
-  switch (isType(value)) {
-    case "[object Array]": {
-      return unlinkArray(value as any) as VALUE
-    }
-    case "[object Object]": {
-      return unlinkObject(value as any) as VALUE
-    }
-    default: {
-      return unlinkOther(value)
-    }
-  }
 }
 
 export default unlink

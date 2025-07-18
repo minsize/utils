@@ -1,4 +1,4 @@
-type Type =
+export type Type =
   | "string"
   | "number"
   | "bigint"
@@ -21,49 +21,36 @@ type Type =
   | "promise"
   | "buffer"
 
-const actions: Record<Type, (value: unknown) => boolean> = {
-  date: (value) => value instanceof Date,
-  regexp: (value) => value instanceof RegExp,
-  error: (value) => value instanceof Error,
-  map: (value) => value instanceof Map,
-  set: (value) => value instanceof Set,
-  weakmap: (value) => value instanceof WeakMap,
-  weakset: (value) => value instanceof WeakSet,
-  promise: (value) => value instanceof Promise,
-  buffer: (value) => value instanceof Buffer,
-  undefined: (value) => typeof value === "undefined",
-  string: (value) => typeof value === "string",
-  bigint: (value) => typeof value === "bigint",
-  number: (value) => typeof value === "number" && !isNaN(value),
-  nan: (value) => typeof value === "number" && isNaN(value),
-  boolean: (value) => typeof value === "boolean",
-  array: (value) => Array.isArray(value),
-  object: (value) =>
-    typeof value === "object" && !Array.isArray(value) && value !== null,
-  function: (value) => typeof value === "function",
-  null: (value) => value === null,
-  symbol: (value) => typeof value === "symbol",
-  unknown: () => true,
-}
 /**
  *
  * @example
  * isType({}) // return: "object"
  * isType({}, "object") // return: true
  */
-function isType<Value>(value: Value, _type: Type): boolean
+function isType<Value>(value: Value, type: Type): boolean
 function isType<Value>(value: Value): Type
 
-function isType<Value>(value: Value, _type?: Type) {
-  for (const [type, check] of Object.entries(actions)) {
-    if (check(value)) {
-      if (_type !== undefined) {
-        return type === _type
-      }
-      return type
+function isType<Value>(value: Value, type?: Type) {
+  var __prototype = Object.prototype.toString
+    .call(value)
+    .replace("[object ", "")
+    .replace("]", "")
+    .toLowerCase()
+
+  if (value instanceof Buffer) {
+    __prototype = "buffer"
+  } else if (__prototype === "number") {
+    if (isNaN(value as number)) {
+      __prototype = "nan"
     }
   }
-  return _type !== undefined ? false : "unknown"
+
+  // Жёсткая проверка на тип
+  if (type !== undefined) {
+    return __prototype === type
+  }
+
+  return __prototype
 }
 
 export default isType

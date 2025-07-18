@@ -20,7 +20,7 @@
     "declaration": false,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "baseUrl": "./src",
+    "baseUrl": "./src"
   },
   "types": ["*.d.ts"],
   "exclude": ["node_modules", "src/**/*.test.ts", "index.ts", "dist/**/*"]

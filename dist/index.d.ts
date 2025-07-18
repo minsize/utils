@@ -43,7 +43,7 @@ type Type = "string" | "number" | "bigint" | "nan" | "boolean" | "object" | "arr
  * isType({}) // return: "object"
  * isType({}, "object") // return: true
  */
-declare function isType<Value>(value: Value, _type: Type): boolean;
+declare function isType<Value>(value: Value, type: Type): boolean;
 declare function isType<Value>(value: Value): Type;
 
 /**
@@ -99,7 +99,7 @@ declare const createLinksFromText: <T extends string, R extends unknown>(text: s
  * const arr4 = [3, 2, 1];
  * comparison({ arr: arr3 }, { arr: arr4 }); // return: false (порядок важен)
  */
-declare const comparison: <VALUE>(prev: VALUE, next: VALUE) => boolean;
+declare const distributor: <VALUE extends unknown>(prev: VALUE, next: VALUE) => boolean;
 
 /**
  * Генерирует уникальный ключ для произвольного JavaScript объекта, используя хеширование (без внешних библиотек).
@@ -172,6 +172,8 @@ declare const elasticClamp: (value: number, min: number, max: number, options?: 
     threshold?: number;
     resistance?: number;
 }) => number;
+
+declare function updateCurrent<CURRENT extends unknown, NEXT extends unknown>(current: CURRENT, next: NEXT): CURRENT;
 
 /**
  *
@@ -279,7 +281,6 @@ type PartialUpdateObject<T extends any[]> = {
 };
 type Options<T extends any[]> = {
     delay: number;
-    equals?: (prev: T, next: T) => boolean;
 };
 /**
  * Класс для отложенного выполнения функции с возможностью
@@ -290,7 +291,6 @@ declare class DebouncedFunction<T extends any[]> {
     private readonly o;
     private tId;
     private s;
-    private c;
     constructor(callback: (...args: T) => void, options: Options<T>);
     /**
      * Обновляет текущие аргументы с помощью функции обновления
@@ -313,4 +313,14 @@ declare class DebouncedFunction<T extends any[]> {
     cancel(): void;
 }
 
-export { DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink };
+declare class DataKeeper<VALUE extends unknown> {
+    private getter;
+    initValue: VALUE;
+    currentValue: VALUE;
+    constructor(getter: () => VALUE);
+    setter(updater: (value: VALUE) => VALUE): void;
+    reset(): void;
+    isModified(): boolean;
+}
+
+export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
