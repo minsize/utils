@@ -37,13 +37,15 @@ function isType<Value>(value: Value, type?: Type) {
     .replace("]", "")
     .toLowerCase()
 
-  if (value instanceof Buffer) {
-    __prototype = "buffer"
-  } else if (__prototype === "number") {
-    if (isNaN(value as number)) {
-      __prototype = "nan"
+  try {
+    if (value instanceof Buffer) {
+      __prototype = "buffer"
+    } else if (__prototype === "number") {
+      if (isNaN(value as number)) {
+        __prototype = "nan"
+      }
     }
-  }
+  } catch {}
 
   // Жёсткая проверка на тип
   if (type !== undefined) {
