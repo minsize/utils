@@ -78,6 +78,7 @@ declare const createLinksFromText: <T extends string, R extends unknown>(text: s
 
 /**
  * Сравнивает два объекта на глубокое равенство, включая массивы (с учетом порядка).
+ * Не сравнивает ссылки
  *
  * @example
  * const obj1 = { a: 1, b: { c: 2 } };
@@ -174,6 +175,8 @@ declare const elasticClamp: (value: number, min: number, max: number, options?: 
 }) => number;
 
 declare function updateCurrent<CURRENT extends unknown, NEXT extends unknown>(current: CURRENT, next: NEXT): CURRENT;
+
+declare function getChangedData<VALUE extends unknown>(prev: VALUE, next: VALUE): VALUE | undefined;
 
 /**
  *
@@ -320,6 +323,7 @@ declare class DataKeeper<VALUE extends unknown> {
     setter(updater: (value: VALUE) => VALUE): void;
     reset(value: VALUE): void;
     isModified(): boolean;
+    get updateValues(): VALUE | undefined;
 }
 
-export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
+export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };

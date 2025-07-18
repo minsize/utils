@@ -1,4 +1,5 @@
 import comparison from "./comparison"
+import getChangedData from "./getChangedData"
 import unlink from "./unlink"
 
 class DataKeeper<VALUE extends unknown> {
@@ -21,6 +22,10 @@ class DataKeeper<VALUE extends unknown> {
 
   isModified() {
     return !comparison(this.initValue, this.currentValue)
+  }
+
+  get updateValues() {
+    return getChangedData(this.initValue, this.currentValue)
   }
 }
 

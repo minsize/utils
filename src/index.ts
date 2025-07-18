@@ -22,6 +22,7 @@ export { default as parseQueryString } from "./utils/parseQueryString"
 export { default as parseVersionString } from "./utils/parseVersionString"
 export { default as elasticClamp } from "./utils/elasticClamp"
 export { default as updateCurrent } from "./utils/updateCurrent"
+export { default as getChangedData } from "./utils/getChangedData"
 
 export { default as chunks } from "./utils/array/chunks"
 export { default as shuffle } from "./utils/array/shuffle"
