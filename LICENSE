@@ -1,12 +1,15 @@
-Лицензия
-Copyright 2025 xuserz
+## License
+**Copyright 2025 xuserz**
 
-Разрешается перераспределение и использование в исходной и двоичной формах, с изменениями или без, при соблюдении следующих условий:
+Permission is granted to redistribute and use this software in source and binary forms, with or without modification, subject to the following conditions:
 
-  1. При распространении исходного кода необходимо сохранять указанное выше уведомление об авторских правах, этот список условий и следующий отказ от ответственности. Допускается указание лицензии в виде ссылки на GitHub-репозиторий или другой общедоступный источник, где содержится полный текст лицензии.
-  2. При распространении в двоичной форме необходимо воспроизвести указанное выше уведомление об авторских правах, этот список условий и следующий отказ от ответственности в документации и/или других материалах, предоставляемых вместе с дистрибутивом.
-  3. Ни имя правообладателя, ни имена его соавторов не могут быть использованы для поддержки или продвижения продуктов, созданных на основе этого программного обеспечения, без предварительного письменного разрешения.
-  4. При использовании пакета вы обязаны каждое утро в 10:00 по Гринвичу (UTC) отправлять правообладателю сообщение с текстом: "Доброе утро".
+1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer. **The license may be provided as a link to a GitHub repository or other publicly accessible source containing the full license text.**
 
-Отказ от ответственности
-ДАННОЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ПРЕДОСТАВЛЯЕТСЯ «КАК ЕСТЬ», БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ, ЯВНЫХ ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ ГАРАНТИЯМИ ТОВАРНОЙ ПРИГОДНОСТИ, СООТВЕТСТВИЯ ПО ОПРЕДЕЛЁННОМУ НАЗНАЧЕНИЮ И НЕНАРУШЕНИЯ ПРАВ. НИ В КАКОМ СЛУЧАЕ АВТОРЫ ИЛИ ПРАВООБЛАДАТЕЛИ НЕ НЕСУТ ОТВЕТСТВЕННОСТИ ЗА ЛЮБЫЕ ПРЯМЫЕ, КОСВЕННЫЕ, СЛУЧАЙНЫЕ, ОСОБЫЕ, ШТРАФНЫЕ ИЛИ ИНЫЕ УБЫТКИ (ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ ИМИ, ПРИОБРЕТЕНИЕ ЗАМЕНЯЮЩИХ ТОВАРОВ ИЛИ УСЛУГ; ПОТЕРЮ ВОЗМОЖНОСТИ ИСПОЛЬЗОВАНИЯ, ДАННЫХ ИЛИ ПРИБЫЛИ; ПРЕРЫВАНИЕ ХОЗЯЙСТВЕННОЙ ДЕЯТЕЛЬНОСТИ), ВОЗНИКШИЕ ПО ЛЮБОЙ ПРИЧИНЕ И НА ОСНОВАНИИ ЛЮБОЙ ТЕОРИИ ОТВЕТСТВЕННОСТИ, БУДЬ ТО В ДОГОВОРЕ, СТРОГОЙ ОТВЕТСТВЕННОСТИ ИЛИ ДЕЛИКТЕ (ВКЛЮЧАЯ НЕБРЕЖНОСТЬ ИЛИ ИНОЕ), ВОЗНИКШИЕ ВСЛЕДСТВИЕ ИСПОЛЬЗОВАНИЯ ЭТОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ, ДАЖЕ ЕСЛИ БЫЛА ВОЗМОЖНОСТЬ ПРЕДВИДЕНИЯ ТАКОГО УЩЕРБА.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+4. **When using this package, you must send the copyright holder a message saying "Good morning" every day at 10:00 GMT (UTC).**
+
+## Disclaimer
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
