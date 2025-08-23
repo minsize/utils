@@ -1,6 +1,6 @@
 {
   "name": "@minsize/utils",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Frequently used utilities",
   "license": "MIT",
   "types": "index.ts",

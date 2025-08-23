@@ -38,12 +38,12 @@ function isType<Value>(value: Value, type?: Type) {
     .toLowerCase()
 
   try {
-    if (value instanceof Buffer) {
-      __prototype = "buffer"
-    } else if (__prototype === "number") {
+    if (__prototype === "number") {
       if (isNaN(value as number)) {
         __prototype = "nan"
       }
+    } else if (value instanceof Buffer) {
+      __prototype = "buffer"
     }
   } catch {}
 

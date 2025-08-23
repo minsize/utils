@@ -108,9 +108,9 @@ declare const distributor: <VALUE extends unknown>(prev: VALUE, next: VALUE) => 
  * @param {any} obj Произвольный JavaScript объект (string, number, array, object, итд.).
  * @returns {string} Строка, представляющая собой уникальный ключ (хеш) для переданного объекта.
  */
-declare const generateUniqueKey: <VALUE extends unknown>(obj: VALUE) => string;
+declare const generateUniqueKey: <VALUE extends any>(obj: VALUE) => string;
 
-declare const unlink: <VALUE extends unknown>(value: VALUE) => VALUE;
+declare const unlink: <VALUE extends any>(value: VALUE) => VALUE;
 
 interface TextParserOptions {
     onToken?: (token: TextToken) => TextToken;
