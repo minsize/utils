@@ -10,7 +10,7 @@ export interface UrlRule {
   id?: string
 }
 
-export const enum UrlAction {
+export enum UrlAction {
   ALLOW = 1,
   DENY = 2,
 }

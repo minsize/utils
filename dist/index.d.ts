@@ -336,7 +336,7 @@ interface UrlRule {
     action?: UrlAction;
     id?: string;
 }
-declare const enum UrlAction {
+declare enum UrlAction {
     ALLOW = 1,
     DENY = 2
 }
