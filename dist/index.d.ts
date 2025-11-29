@@ -326,4 +326,159 @@ declare class DataKeeper<VALUE extends unknown> {
     get updateValues(): VALUE | undefined;
 }
 
-export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
+interface UrlRule {
+    hosts: string[];
+    paths?: (string | RegExp)[];
+    hash?: (string | RegExp)[];
+    allowedParams?: string[];
+    ignoreParams?: string[];
+    priority?: number;
+    action?: UrlAction;
+    id?: string;
+}
+declare const enum UrlAction {
+    ALLOW = 1,
+    DENY = 2
+}
+/**
+ * Менеджер безопасности URL
+ * Обеспечивает проверку и контроль доступа к URL на основе настроенных правил
+ *
+ * @example
+ * const securityManager = new UrlSecurityManager(ALLOWED_URLS);
+ * if (securityManager.isAllowed(someUrl)) {
+ *   openUrl(someUrl);
+ * } else {
+ *   showWarningModal(someUrl);
+ * }
+ */
+declare class UrlSecurityManager {
+    private rules;
+    private cache;
+    private cacheEnabled;
+    /**
+     * Создает экземпляр менеджера безопасности URL
+     *
+     * @param rules - Массив правил для проверки URL
+     * @param enableCache - Включить кеширование результатов проверки для производительности
+     */
+    constructor(rules?: UrlRule[], enableCache?: boolean);
+    /**
+     * Проверяет, разрешен ли доступ к указанному URL
+     *
+     * @param inputUrl - URL для проверки (строка или объект URL)
+     * @returns true если доступ разрешен, false если запрещен
+     *
+     * @example
+     * securityManager.isAllowed('https://example.com') // true/false
+     * securityManager.isAllowed(new URL('https://example.com')) // true/false
+     */
+    isAllowed(inputUrl: string | URL): boolean;
+    /**
+     * Оценивает URL по всем правилам в порядке приоритета
+     * Первое совпавшее правило определяет результат
+     *
+     * @param url - URL объект для проверки
+     * @returns Результат проверки доступа
+     */
+    private evaluateRules;
+    /**
+     * Проверяет соответствие URL конкретному правилу
+     *
+     * @param url - URL для проверки
+     * @param rule - Правило для проверки
+     * @returns true если URL соответствует правилу
+     */
+    private ruleMatches;
+    /**
+     * Проверяет соответствие хоста URL правилу
+     *
+     * @param rule - Правило для проверки
+     * @param url - URL для проверки
+     * @returns true если хост соответствует
+     */
+    private checkHost;
+    /**
+     * Проверяет соответствие пути URL правилу
+     * Поддерживает как строки, так и регулярные выражения
+     *
+     * @param rule - Правило для проверки
+     * @param url - URL для проверки
+     * @returns true если путь соответствует
+     */
+    private checkPaths;
+    /**
+     * Проверяет соответствие hash части URL правилу
+     * Поддерживает как строки, так и регулярные выражения
+     *
+     * @param rule - Правило для проверки
+     * @param url - URL для проверки
+     * @returns true если hash соответствует
+     */
+    private checkHash;
+    /**
+     * Проверяет параметры запроса URL на соответствие правилу
+     *
+     * @param rule - Правило для проверки
+     * @param url - URL для проверки
+     * @returns true если параметры соответствуют
+     */
+    private checkParams;
+    /**
+     * Обнаруживает обфусцированные и потенциально опасные URL
+     *
+     * @param url - URL для проверки
+     * @returns true если URL считается обфусцированным
+     */
+    private isObfuscatedUrl;
+    /**
+     * Создает ключ для кеширования на основе нормализованного URL
+     *
+     * @param url - URL для нормализации
+     * @returns Ключ кеша
+     */
+    private getCacheKey;
+    /**
+     * Логирует результат проверки доступа
+     *
+     * @param url - Проверяемый URL
+     * @param allowed - Результат проверки
+     */
+    private logAccess;
+    /**
+     * Валидирует конфигурацию правил при инициализации
+     * Выводит предупреждения в консоль при некорректных правилах
+     */
+    private validateConfig;
+    /**
+     * Находит правило, которое применилось к указанному URL
+     * Полезно для отображения пользователю причины блокировки
+     *
+     * @param inputUrl - URL для проверки
+     * @returns Найденное правило или null если не найдено
+     *
+     * @example
+     * const rule = securityManager.findMatchingRule(blockedUrl);
+     * console.log(`Access blocked by: ${rule?.id}`);
+     */
+    findMatchingRule(inputUrl: string | URL): UrlRule | null;
+    /**
+     * Очищает кеш проверок
+     * Полезно при обновлении правил в runtime
+     */
+    clearCache(): void;
+    /**
+     * Включает или выключает кеширование
+     *
+     * @param enabled - Состояние кеширования
+     */
+    setCacheEnabled(enabled: boolean): void;
+    /**
+     * Возвращает текущее количество закешированных результатов
+     *
+     * @returns Количество закешированных записей
+     */
+    getCacheSize(): number;
+}
+
+export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, UrlAction, type UrlRule, UrlSecurityManager, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
