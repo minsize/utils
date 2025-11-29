@@ -327,7 +327,7 @@ declare class DataKeeper<VALUE extends unknown> {
 }
 
 interface UrlRule {
-    hosts: string[];
+    hosts: (string | RegExp)[];
     paths?: (string | RegExp)[];
     hash?: (string | RegExp)[];
     allowedParams?: string[];
@@ -392,6 +392,7 @@ declare class UrlSecurityManager {
     private ruleMatches;
     /**
      * Проверяет соответствие хоста URL правилу
+     * Поддерживает как строки, так и регулярные выражения
      *
      * @param rule - Правило для проверки
      * @param url - URL для проверки

@@ -3,6 +3,99 @@ import { UrlSecurityManager, UrlRule, UrlAction } from "../src"
 describe("UrlSecurityManager", () => {
   let securityManager: UrlSecurityManager
 
+  describe("Поддержка регулярных выражений в hosts", () => {
+    it("должен разрешать доступ для хостов соответствующих регулярным выражениям", () => {
+      const manager = new UrlSecurityManager([
+        {
+          id: "regexp-hosts",
+          hosts: [/^api\.\w+\.com$/, /^staging\.example\.(com|net)$/],
+          action: UrlAction.ALLOW,
+          priority: 10,
+        },
+      ])
+
+      expect(manager.isAllowed("https://api.service.com")).toBe(true)
+      expect(manager.isAllowed("https://api.test.com")).toBe(true)
+      expect(manager.isAllowed("https://staging.example.com")).toBe(true)
+      expect(manager.isAllowed("https://staging.example.net")).toBe(true)
+    })
+
+    it("должен запрещать доступ для хостов не соответствующих регулярным выражениям", () => {
+      const manager = new UrlSecurityManager([
+        {
+          id: "regexp-hosts-strict",
+          hosts: [/^app\.example\.com$/],
+          action: UrlAction.ALLOW,
+          priority: 10,
+        },
+      ])
+
+      expect(manager.isAllowed("https://app.example.com")).toBe(true)
+      expect(manager.isAllowed("https://sub.app.example.com")).toBe(false)
+      expect(manager.isAllowed("https://app-example.com")).toBe(false)
+    })
+
+    it("должен корректно работать с комбинацией строк и регулярных выражений", () => {
+      const manager = new UrlSecurityManager([
+        {
+          id: "mixed-hosts",
+          hosts: ["exact.com", /^sub\.\w+\.com$/, /^api-\d+\.org$/],
+          action: UrlAction.ALLOW,
+          priority: 10,
+        },
+      ])
+
+      expect(manager.isAllowed("https://exact.com")).toBe(true)
+      expect(manager.isAllowed("https://sub.test.com")).toBe(true)
+      expect(manager.isAllowed("https://sub.demo.com")).toBe(true)
+      expect(manager.isAllowed("https://api-123.org")).toBe(true)
+      expect(manager.isAllowed("https://other.com")).toBe(false)
+      expect(manager.isAllowed("https://sub.com")).toBe(false)
+    })
+
+    it("должен приоритизировать правила с регулярными выражениями в hosts", () => {
+      const manager = new UrlSecurityManager([
+        {
+          id: "deny-regexp",
+          hosts: [/^admin\.\w+\.com$/],
+          action: UrlAction.DENY,
+          priority: 1,
+        },
+        {
+          id: "allow-specific",
+          hosts: ["admin.trusted.com"],
+          action: UrlAction.ALLOW,
+          priority: 10,
+        },
+      ])
+
+      expect(manager.isAllowed("https://admin.trusted.com")).toBe(false)
+      expect(manager.isAllowed("https://admin.other.com")).toBe(false)
+    })
+
+    it("должен корректно обрабатывать сложные регулярные выражения", () => {
+      const manager = new UrlSecurityManager([
+        {
+          id: "complex-regexp",
+          hosts: [
+            /^(www|api|cdn)\.example\.(com|org|net)$/,
+            /^[a-z]+-\d+\.service\.com$/,
+          ],
+          action: UrlAction.ALLOW,
+          priority: 10,
+        },
+      ])
+
+      expect(manager.isAllowed("https://www.example.com")).toBe(true)
+      expect(manager.isAllowed("https://api.example.org")).toBe(true)
+      expect(manager.isAllowed("https://cdn.example.net")).toBe(true)
+      expect(manager.isAllowed("https://test-123.service.com")).toBe(true)
+      expect(manager.isAllowed("https://prod-456.service.com")).toBe(true)
+      expect(manager.isAllowed("https://sub.example.com")).toBe(false)
+      expect(manager.isAllowed("https://test.service.com")).toBe(false)
+    })
+  })
+
   describe("Базовая функциональность", () => {
     beforeEach(() => {
       securityManager = new UrlSecurityManager([
@@ -37,6 +130,9 @@ describe("UrlSecurityManager", () => {
     })
 
     it("должен запрещать доступ для запрещенных URL", () => {
+      expect(
+        securityManager.isAllowed("https://m.vk.com/anonim_messenger"),
+      ).toBe(false)
       expect(securityManager.isAllowed("https://malicious.com")).toBe(false)
       expect(securityManager.isAllowed("https://unknown.com")).toBe(false)
     })
@@ -338,7 +434,7 @@ describe("UrlSecurityManager", () => {
       ])
 
       expect(manager.isAllowed("https://api.example.com")).toBe(true)
-      expect(manager.isAllowed("https://sub.api.example.com")).toBe(true)
+      expect(manager.isAllowed("https://sub.api.example.com")).toBe(false)
       expect(manager.isAllowed("https://example.com")).toBe(false)
     })
   })

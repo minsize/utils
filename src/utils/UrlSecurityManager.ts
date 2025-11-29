@@ -1,8 +1,8 @@
 // Типы для TypeScript
 export interface UrlRule {
-  hosts: string[]
-  paths?: (string | RegExp)[] // Объединяем paths и pathPatterns в один массив
-  hash?: (string | RegExp)[] // Объединяем hash и hashPatterns в один массив
+  hosts: (string | RegExp)[] // Добавляем поддержку RegExp для hosts
+  paths?: (string | RegExp)[]
+  hash?: (string | RegExp)[]
   allowedParams?: string[]
   ignoreParams?: string[]
   priority?: number
@@ -145,21 +145,26 @@ class UrlSecurityManager {
 
   /**
    * Проверяет соответствие хоста URL правилу
+   * Поддерживает как строки, так и регулярные выражения
    *
    * @param rule - Правило для проверки
    * @param url - URL для проверки
    * @returns true если хост соответствует
    */
   private checkHost(rule: UrlRule, url: URL): boolean {
-    // Специальный случай - правило для всех доменов
-    if (rule.hosts.includes("*")) {
-      return true
-    }
-
-    // Проверяем точное соответствие или поддомены
-    return rule.hosts.some(
-      (host) => url.host === host || url.host.endsWith("." + host),
-    )
+    return rule.hosts.some((host) => {
+      if (typeof host === "string") {
+        // Специальный случай - правило для всех доменов
+        if (host === "*") {
+          return true
+        }
+        // Для строк проверяем только точное соответствие
+        return url.host === host
+      } else {
+        // Для регулярных выражений проверяем соответствие паттерну
+        return host.test(url.host)
+      }
+    })
   }
 
   /**
