@@ -112,17 +112,74 @@ declare const generateUniqueKey: <VALUE extends any>(obj: VALUE) => string;
 
 declare const unlink: <VALUE extends any>(value: VALUE) => VALUE;
 
-interface TextParserOptions {
-    onToken?: (token: TextToken) => TextToken;
+interface TextParserOptions$1 {
+    onToken?: (token: TextToken$1) => TextToken$1;
     requireProtocol?: boolean;
     regex?: RegExp;
 }
-type TextTokenType = "raw" | "url";
-interface TextToken {
-    type: TextTokenType;
+type TextTokenType$1 = "raw" | "url";
+interface TextToken$1 {
+    type: TextTokenType$1;
     value: string;
 }
-declare const textParserUrl: (input: string, options?: TextParserOptions) => TextToken[];
+/**
+ *
+ * @deprecated Using in `parseTextTokens`
+ */
+declare const textParserUrl: (input: string, options?: TextParserOptions$1) => TextToken$1[];
+
+/**
+ * Опции для парсера текста
+ */
+interface TextParserOptions {
+    /**
+     * Callback-функция, вызываемая для каждого найденного токена
+     * Позволяет модифицировать токены перед добавлением в результат
+     */
+    onToken?: (token: TextToken) => TextToken;
+    /**
+     * Требовать ли наличие протокола (http/https) для распознавания URL
+     * @default false
+     */
+    requireProtocol?: boolean;
+    /**
+     * Кастомное регулярное выражение для поиска URL
+     * Если не указано, используется стандартное выражение
+     */
+    regex?: RegExp;
+}
+/**
+ * Типы токенов, которые может распознавать парсер
+ */
+type TextTokenType = "raw" | "url" | "emoji";
+/**
+ * Токен - минимальная единица разбора текста
+ */
+interface TextToken {
+    /** Тип токена */
+    type: TextTokenType;
+    /** Значение токена */
+    value: string;
+}
+/**
+ * Парсит текст на токены: URL, эмодзи и обычный текст
+ *
+ * @param input - Входная строка для парсинга
+ * @param options - Опции парсера
+ * @returns Массив токенов
+ *
+ * @example
+ * ```typescript
+ * const result = parseTextTokens("Привет! 😊 Посети https://example.com")
+ * // [
+ * //   { type: "raw", value: "Привет! " },
+ * //   { type: "emoji", value: "😊" },
+ * //   { type: "raw", value: " Посети " },
+ * //   { type: "url", value: "https://example.com" }
+ * // ]
+ * ```
+ */
+declare const parseTextTokens: (input: string, options?: TextParserOptions) => TextToken[];
 
 /**
  * Функция мемоизации, которая сохраняет результаты вызовов функции `fn` с определенными аргументами.
@@ -482,4 +539,4 @@ declare class UrlSecurityManager {
     getCacheSize(): number;
 }
 
-export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, UrlAction, type UrlRule, UrlSecurityManager, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
+export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, UrlAction, type UrlRule, UrlSecurityManager, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseTextTokens, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };

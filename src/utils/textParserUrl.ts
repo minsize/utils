@@ -20,6 +20,10 @@ const regexpRequireProtocol = new RegExp(
 
 const defaultOnToken = (e: TextToken): TextToken => e
 
+/**
+ *
+ * @deprecated Using in `parseTextTokens`
+ */
 const textParserUrl = (
   input: string,
   options?: TextParserOptions,
