@@ -1,6 +1,8 @@
 import { Mutex } from "@minsize/mutex"
 import EventEmitter from "./eventemitter"
 
+type Return<Result> = [Result, { duplicated: boolean }]
+
 class RequestDeduplicator {
   private requests = new Set<string>()
   private emitter = new EventEmitter<{
@@ -20,18 +22,18 @@ class RequestDeduplicator {
   public async fetch<Result>(
     key: string,
     callback: () => Promise<Result>,
-  ): Promise<Result> {
+  ): Promise<Return<Result>> {
     const release = await this.mutex.wait({ key, limit: 1 })
 
     // Если запрос уже есть то ставим в ожидание
     if (this.requests.has(key)) {
       release()
-      return new Promise<Result>((resolve, reject) => {
+      return new Promise<Return<Result>>((resolve, reject) => {
         this.emitter.once(key, (data) => {
           if (data.error) {
             reject(data.error)
           } else {
-            resolve(data.result)
+            resolve([data.result, { duplicated: true }])
           }
         })
       })
@@ -40,10 +42,10 @@ class RequestDeduplicator {
     this.requests.add(key)
     release()
 
-    return new Promise((resolve, reject) => {
+    return new Promise<Return<Result>>((resolve, reject) => {
       callback()
         .then((result) => {
-          resolve(result)
+          resolve([result, { duplicated: false }])
           this.emitter.emit(key, { result })
           this.requests.delete(key)
         })

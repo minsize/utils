@@ -25,9 +25,9 @@ describe("RequestDeduplicator", () => {
     expect(requestCount).toBe(1)
 
     // Все промисы должны вернуть одинаковый результат
-    expect(results[0]).toEqual({ data: "test", requestId: 1 })
-    expect(results[1]).toEqual(results[0])
-    expect(results[2]).toEqual(results[0])
+    expect(results[0][0]).toEqual({ data: "test", requestId: 1 })
+    expect(results[1][0]).toEqual(results[0][0])
+    expect(results[2][0]).toEqual(results[0][0])
   })
 
   it("should handle different keys independently", async () => {
@@ -51,14 +51,14 @@ describe("RequestDeduplicator", () => {
     expect(requestCount).toBe(2)
 
     // key1 должен быть одинаковым для двух запросов
-    expect(results[0].key).toBe("key1")
-    expect(results[2].key).toBe("key1")
-    expect(results[0].requestId).toBe(0)
-    expect(results[2].requestId).toBe(0) // Тот же requestId что и у первого
+    expect(results[0][0].key).toBe("key1")
+    expect(results[2][0].key).toBe("key1")
+    expect(results[0][0].requestId).toBe(0)
+    expect(results[2][0].requestId).toBe(0) // Тот же requestId что и у первого
 
     // key2 должен быть отдельным
-    expect(results[1].key).toBe("key2")
-    expect(results[1].requestId).toBe(1)
+    expect(results[1][0].key).toBe("key2")
+    expect(results[1][0].requestId).toBe(1)
   })
 
   it("should allow new request after previous completes", async () => {
@@ -79,8 +79,8 @@ describe("RequestDeduplicator", () => {
     ])
 
     expect(requestCount).toBe(1)
-    expect(firstBatch[0]).toBe("result-1")
-    expect(firstBatch[1]).toBe("result-1")
+    expect(firstBatch[0][0]).toBe("result-1")
+    expect(firstBatch[1][0]).toBe("result-1")
 
     // Ждем завершения первого запроса
     await new Promise((resolve) => setTimeout(resolve, 10))
@@ -92,8 +92,8 @@ describe("RequestDeduplicator", () => {
     ])
 
     expect(requestCount).toBe(2)
-    expect(secondBatch[0]).toBe("result-2")
-    expect(secondBatch[1]).toBe("result-2")
+    expect(secondBatch[0][0]).toBe("result-2")
+    expect(secondBatch[1][0]).toBe("result-2")
   })
 
   it("should handle errors properly", async () => {
@@ -154,11 +154,11 @@ describe("RequestDeduplicator", () => {
     expect(executionCount).toBe(2)
 
     // Все запросы user-1 должны вернуть одинаковые данные
-    expect(user1a).toEqual(user1b)
-    expect(user1b).toEqual(user1c)
+    expect(user1a[0]).toEqual(user1b[0])
+    expect(user1b[0]).toEqual(user1c[0])
 
     // user-2 должен быть другим
-    expect(user2a.id).toBe(2)
+    expect(user2a[0].id).toBe(2)
   })
 
   it("should release mutex even if callback throws", async () => {
@@ -186,7 +186,7 @@ describe("RequestDeduplicator", () => {
     await new Promise((resolve) => setTimeout(resolve, 10))
 
     // Второй вызов должен работать (должен освободиться мьютекс)
-    const result = await deduplicator.fetch(key, unstableCallback)
+    const [result] = await deduplicator.fetch(key, unstableCallback)
     expect(result).toBe("success")
     expect(callCount).toBe(2)
   })
@@ -208,7 +208,9 @@ describe("RequestDeduplicator", () => {
     for (let i = 0; i < 10; i++) {
       const key = `key-${i % 3}` // 3 уникальных ключа
       promises.push(
-        deduplicator.fetch(key, callback(key)).then((res) => results.push(res)),
+        deduplicator
+          .fetch(key, callback(key))
+          .then((res) => results.push(res[0])),
       )
     }
 

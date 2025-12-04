@@ -383,11 +383,14 @@ declare class DataKeeper<VALUE extends unknown> {
     get updateValues(): VALUE | undefined;
 }
 
+type Return<Result> = [Result, {
+    duplicated: boolean;
+}];
 declare class RequestDeduplicator {
     private requests;
     private emitter;
     private mutex;
-    fetch<Result>(key: string, callback: () => Promise<Result>): Promise<Result>;
+    fetch<Result>(key: string, callback: () => Promise<Result>): Promise<Return<Result>>;
 }
 
 interface UrlRule {
