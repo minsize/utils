@@ -39,6 +39,7 @@ export { default as HEXtoRGB } from "./utils/colors/HEXtoRGB"
 export { default as EventEmitter } from "./utils/eventemitter"
 export { default as DebouncedFunction } from "./utils/debouncedFunction"
 export { default as DataKeeper } from "./utils/DataKeeper"
+export { default as RequestDeduplicator } from "./utils/RequestDeduplicator"
 
 export {
   default as UrlSecurityManager,

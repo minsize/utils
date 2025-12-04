@@ -27,6 +27,7 @@
     "typescript": "latest"
   },
   "dependencies": {
+    "@minsize/mutex": "^0.0.7",
     "@types/benchmark": "^2.1.5",
     "benchmark": "^2.1.4",
     "rollup-plugin-typescript-paths": "^1.5.0"

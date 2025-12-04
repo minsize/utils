@@ -108,9 +108,9 @@ declare const distributor: <VALUE extends unknown>(prev: VALUE, next: VALUE) => 
  * @param {any} obj Произвольный JavaScript объект (string, number, array, object, итд.).
  * @returns {string} Строка, представляющая собой уникальный ключ (хеш) для переданного объекта.
  */
-declare const generateUniqueKey: <VALUE extends any>(obj: VALUE) => string;
+declare const generateUniqueKey: <VALUE extends unknown>(obj: VALUE) => string;
 
-declare const unlink: <VALUE extends any>(value: VALUE) => VALUE;
+declare const unlink: <VALUE extends unknown>(value: VALUE) => VALUE;
 
 interface TextParserOptions$1 {
     onToken?: (token: TextToken$1) => TextToken$1;
@@ -383,6 +383,13 @@ declare class DataKeeper<VALUE extends unknown> {
     get updateValues(): VALUE | undefined;
 }
 
+declare class RequestDeduplicator {
+    private requests;
+    private emitter;
+    private mutex;
+    fetch<Result>(key: string, callback: () => Promise<Result>): Promise<Result>;
+}
+
 interface UrlRule {
     hosts: (string | RegExp)[];
     paths?: (string | RegExp)[];
@@ -539,4 +546,4 @@ declare class UrlSecurityManager {
     getCacheSize(): number;
 }
 
-export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, UrlAction, type UrlRule, UrlSecurityManager, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseTextTokens, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
+export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, RequestDeduplicator, UrlAction, type UrlRule, UrlSecurityManager, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseTextTokens, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
