@@ -1,4 +1,4 @@
-import { decWord } from ".."
+import { decWord } from "../.."
 
 const timeAgo = (timestamp: number) => {
   if (!timestamp) return "только что"

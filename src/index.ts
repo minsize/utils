@@ -2,7 +2,6 @@ export { default as clamp } from "./utils/clamp"
 export { default as decWord } from "./utils/decWord"
 export { default as alignTo } from "./utils/alignTo"
 export { default as toShort } from "./utils/toShort"
-export { default as timeAgo } from "./utils/timeAgo"
 export { default as formatNumber } from "./utils/formatNumber"
 export { default as random } from "./utils/random"
 export { default as randomByWeight } from "./utils/randomByWeight"
@@ -36,6 +35,9 @@ export { default as RGBtoHEX } from "./utils/colors/RGBtoHEX"
 export { default as RGBtoHSV } from "./utils/colors/RGBtoHSV"
 export { default as HEXtoRGB } from "./utils/colors/HEXtoRGB"
 
+/* time */
+export { default as timeAgo } from "./utils/date/timeAgo"
+
 export { default as EventEmitter } from "./utils/eventemitter"
 export { default as DebouncedFunction } from "./utils/debouncedFunction"
 export { default as DataKeeper } from "./utils/DataKeeper"
@@ -46,3 +48,5 @@ export {
   UrlAction,
   type UrlRule,
 } from "./utils/UrlSecurityManager"
+
+export { default as ObjectURLManager } from "./utils/ObjectURLManager"

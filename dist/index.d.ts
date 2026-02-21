@@ -21,8 +21,6 @@ declare function alignTo(num: number, by: number): number;
 
 declare const toShort: (number: number, customParts?: string[], fixed?: number) => string;
 
-declare const timeAgo: (timestamp: number) => string;
-
 declare const formatNumber: (number: number) => string;
 
 declare function random(min: number, max: number, seed?: number): number;
@@ -291,6 +289,8 @@ declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, nu
 
 declare const HEXtoRGB: (hex: string) => [number, number, number];
 
+declare const timeAgo: (timestamp: number) => string;
+
 type Callback<T extends unknown[] = unknown[]> = (...args: T) => void;
 declare class EventEmitter<TEvents extends Record<string, unknown[]>> {
     e: Record<string, Callback[]>;
@@ -549,4 +549,47 @@ declare class UrlSecurityManager {
     getCacheSize(): number;
 }
 
-export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, RGBtoHEX, RGBtoHSV, RequestDeduplicator, UrlAction, type UrlRule, UrlSecurityManager, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseTextTokens, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
+declare class ObjectURLManager {
+    private urls;
+    /**
+     * Создает URL и устанавливает время открытия
+     * @param key - Уникальный ключ
+     * @param obj - объект
+     * @param ttl - Время жизни в миллисекундах после создания
+     * @returns {string} - Созданный URL
+     */
+    create(key: string, obj: Parameters<typeof URL.createObjectURL>["0"], ttl: number): string;
+    /**
+     * Обновляет время последнего открытия URL
+     * @param key - URL для обновления
+     * @returns {boolean} - Успешно ли обновлено
+     */
+    access(key: string): boolean;
+    /**
+     * Принудительно удаляет URL
+     * @param key - Уникальный ключ
+     * @returns {boolean}
+     */
+    revoke(key: string): boolean;
+    /**
+     * Удаляет все истекшие URL
+     * @returns {number} - Количество удаленных URL
+     */
+    cleanup(): number;
+    /**
+     * Создает URL с таймером автоматического удаления
+     * @param key - Уникальный ключ
+     * @param obj - объект
+     * @param ttl - Время жизни в миллисекундах после создания
+     * @returns {string} - Созданный URL
+     */
+    createWithAutoRevoke(key: string, obj: Parameters<typeof URL.createObjectURL>["0"], ttl: number): string;
+    /**
+     * Проверяет, истек ли срок жизни URL
+     * @param {string} url - URL для проверки
+     * @returns {boolean} - Истек ли срок
+     */
+    isExpired(key: string): boolean;
+}
+
+export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, ObjectURLManager, RGBtoHEX, RGBtoHSV, RequestDeduplicator, UrlAction, type UrlRule, UrlSecurityManager, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, orderBy, parseQueryString, parseTextTokens, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
