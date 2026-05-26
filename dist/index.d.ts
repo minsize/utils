@@ -294,6 +294,7 @@ declare const timeAgo: (timestamp: number) => string;
 type Callback<T extends unknown[] = unknown[]> = (...args: T) => void;
 declare class EventEmitter<TEvents extends Record<string, unknown[]>> {
     e: Record<string, Callback[]>;
+    pendingEvents: Record<string, TEvents[keyof TEvents & string][]>;
     /**
      * Подписка на событие
      * @param name - Имя события
@@ -308,11 +309,17 @@ declare class EventEmitter<TEvents extends Record<string, unknown[]>> {
      */
     off<TEventName extends keyof TEvents & string>(name: TEventName, callback: Callback<TEvents[TEventName]>): void;
     /**
-     * Инициация события
+     * Инициация события (без отложенной отправки)
      * @param name - Имя события
      * @param args - Аргументы для обработчиков
      */
     emit<TEventName extends keyof TEvents & string>(name: TEventName, ...args: TEvents[TEventName]): void;
+    /**
+     * Инициация события с отложенной отправкой (если нет подписчиков - сохраняет в буфер)
+     * @param name - Имя события
+     * @param args - Аргументы для обработчиков
+     */
+    emitWithDefer<TEventName extends keyof TEvents & string>(name: TEventName, ...args: TEvents[TEventName]): void;
     /**
      * Подписка на событие один раз
      * @param name - Имя события
