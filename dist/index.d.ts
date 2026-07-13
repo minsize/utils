@@ -99,6 +99,27 @@ declare class DebouncedFunction<T extends any[]> {
     cancel(): void;
 }
 
+type Debounced<F extends (...args: any[]) => any> = ((...args: Parameters<F>) => void) & {
+    cancel: () => void;
+    flush: () => ReturnType<F> | undefined;
+    pending: () => boolean;
+};
+/**
+ * Откладывает вызов функции до завершения паузы между вызовами.
+ *
+ * @example
+ * const search = debounce((query: string) => loadResults(query), 250)
+ * search("utils")
+ * search.cancel()
+ */
+declare function debounce<F extends (...args: any[]) => any>(callback: F, delay: number): Debounced<F>;
+
+/** Creates an AbortSignal that aborts after a timeout. @example fetch("/api", { signal: createAbortTimeout(5_000) }) */
+declare function createAbortTimeout(timeout: number): AbortSignal;
+
+/** Checks whether an error represents an aborted async operation. @example isAbortError({ name: "AbortError" }) // true */
+declare const isAbortError: (error: unknown) => boolean;
+
 /**
  * Возвращает обёртку, которая вызывает исходную функцию только при первом вызове.
  * Повторные вызовы возвращают результат первого.
@@ -156,6 +177,23 @@ declare function retry<T>(fn: () => Promise<T>, retries: number, delay: number):
  */
 declare const sleep: (time: number) => Promise<unknown>;
 
+type Throttled<F extends (...args: any[]) => any> = ((...args: Parameters<F>) => void) & {
+    cancel: () => void;
+    flush: () => ReturnType<F> | undefined;
+    pending: () => boolean;
+};
+/**
+ * Ограничивает частоту вызова функции, сохраняя последний вызов для конца интервала.
+ *
+ * @example
+ * const onScroll = throttle(() => updateHeader(), 100)
+ * window.addEventListener("scroll", onScroll)
+ */
+declare function throttle<F extends (...args: any[]) => any>(callback: F, delay: number): Throttled<F>;
+
+/** Rejects a promise if it does not settle in time. @example await withTimeout(fetch("/api"), 5_000) */
+declare function withTimeout<T>(promise: PromiseLike<T>, timeout: number): Promise<T>;
+
 /**
  * Пытается скопировать непустой текст в буфер обмена браузера.
  * Использует Clipboard API, а затем устаревший fallback через `execCommand`.
@@ -165,6 +203,12 @@ declare const sleep: (time: number) => Promise<unknown>;
  */
 declare const copyText: (text?: string) => void;
 
+/** Copies an image Blob to the clipboard when the browser supports it. @example await copyImageToClipboard(blob) */
+declare function copyImageToClipboard(blob: Blob): Promise<boolean>;
+
+/** Subscribes to a media query and returns an unsubscribe function. @example const stop = createMediaQuery("(min-width: 768px)", console.log) */
+declare function createMediaQuery(query: string, listener: (matches: boolean) => void): () => void;
+
 /**
  * Заменяет шаблоны `{{key:text}}` результатом callback-функции, сохраняя обычный текст.
  *
@@ -173,6 +217,86 @@ declare const copyText: (text?: string) => void;
  * // ["Open ", { key: "docs", text: "documentation" }, ""]
  */
 declare const createLinksFromText: <T extends string, R extends unknown>(text: string, callback: (key: T, value: string) => R) => (string | R)[];
+
+/** Downloads a Blob using a temporary object URL. @example downloadBlob(new Blob(["text"]), "note.txt") */
+declare function downloadBlob(blob: Blob, fileName: string): boolean;
+
+/** Focuses the first focusable child. @example focusFirst(dialog) */
+declare function focusFirst(container: ParentNode): HTMLElement | undefined;
+
+/** Focuses the last focusable child. @example focusLast(dialog) */
+declare function focusLast(container: ParentNode): HTMLElement | undefined;
+
+/** Reads a cookie by name. @example getCookie("theme") // "dark" */
+declare const getCookie: (name: string, value?: string) => string | undefined;
+
+/** Reads a CSS custom property. @example getCssVariable("--brand-color") */
+declare function getCssVariable(name: string, element?: Element): string | undefined;
+
+/** Returns devicePixelRatio with an SSR-safe fallback. @example getDevicePixelRatio() // 2 */
+declare const getDevicePixelRatio: () => number;
+
+type ElementOffset = {
+    top: number;
+    left: number;
+};
+/** Returns an element position relative to the document. @example getElementOffset(button) // { top: 120, left: 20 } */
+declare function getElementOffset(element: Element): ElementOffset;
+
+/**
+ * Возвращает доступные для фокуса элементы внутри контейнера.
+ * Без DOM API безопасно возвращает пустой массив.
+ *
+ * @example
+ * const focusable = getFocusableElements(dialog)
+ * focusable[0]?.focus()
+ */
+declare function getFocusableElements(container?: ParentNode): HTMLElement[];
+
+/** Loads image dimensions from a URL or Blob. @example const { width } = await getImageDimensions(file) */
+declare function getImageDimensions(source: string | Blob): Promise<{
+    width: number;
+    height: number;
+}>;
+
+type SafeAreaInsets = {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+};
+/** Reads CSS safe-area inset values. @example getSafeAreaInsets() // { top: 0, right: 0, bottom: 34, left: 0 } */
+declare function getSafeAreaInsets(): SafeAreaInsets;
+
+/** Finds the nearest scrollable parent. @example getScrollParent(menu) */
+declare function getScrollParent(element: HTMLElement): HTMLElement | null;
+
+/** Returns the current vertical scrollbar width. @example getScrollbarWidth() // 15 */
+declare const getScrollbarWidth: () => number;
+
+/** Reads a JSON value from localStorage without throwing during SSR or quota errors. @example getStorageItem("theme", "light") */
+declare function getStorageItem<T>(key: string): T | undefined;
+declare function getStorageItem<T>(key: string, fallback: T): T;
+
+/**
+ * Проверяет наличие DOM API. Подходит для защиты кода при SSR.
+ *
+ * @example
+ * if (isBrowser()) window.scrollTo(0, 0)
+ */
+declare const isBrowser: () => boolean;
+
+/** Checks whether an element intersects the viewport. @example isElementVisible(banner, 16) */
+declare function isElementVisible(element: Element, offset?: number): boolean;
+
+/** Checks whether the current viewport is below a breakpoint. @example isMobileViewport() // true */
+declare const isMobileViewport: (breakpoint?: number) => boolean;
+
+/** Checks for touch input support. @example isTouchDevice() // true */
+declare const isTouchDevice: () => boolean;
+
+/** Alias for waitForAnimationFrame. @example await nextFrame() */
+declare const nextFrame: () => Promise<number>;
 
 /**
  * Хранит созданные object URL и помогает вовремя освободить связанные ресурсы.
@@ -242,6 +366,57 @@ declare class ObjectURLManager {
     isExpired(key: string): boolean;
 }
 
+/** Parses a Cookie header or document.cookie into a record. @example parseCookies("theme=dark") // { theme: "dark" } */
+declare function parseCookies(value?: string): Record<string, string>;
+
+type ColorSchemePreference = "light" | "dark" | "no-preference";
+/** Returns the preferred color scheme. @example prefersColorScheme() // "dark" */
+declare function prefersColorScheme(): ColorSchemePreference;
+
+/** Checks the user reduced-motion preference. @example prefersReducedMotion() // false */
+declare const prefersReducedMotion: () => boolean;
+
+/** Reads a Blob or File as a data URL. @example const source = await readFileAsDataUrl(file) */
+declare function readFileAsDataUrl(file: Blob): Promise<string>;
+
+/** Reads a Blob or File as text. @example const text = await readFileAsText(file) */
+declare const readFileAsText: (file: Blob) => Promise<string>;
+
+/** Expires a cookie immediately. @example removeCookie("theme") */
+declare const removeCookie: (name: string, path?: string) => boolean;
+
+/** Removes a localStorage value and reports whether it succeeded. @example removeStorageItem("theme") // true */
+declare function removeStorageItem(key: string): boolean;
+
+/** Scrolls an element into view only when it is outside the viewport. @example scrollIntoViewIfNeeded(errorField) */
+declare function scrollIntoViewIfNeeded(element: Element, options?: ScrollIntoViewOptions): boolean;
+
+type CookieOptions = {
+    path?: string;
+    domain?: string;
+    maxAge?: number;
+    expires?: Date;
+    sameSite?: "lax" | "strict" | "none";
+    secure?: boolean;
+};
+/** Sets a browser cookie and returns whether document.cookie is available. @example setCookie("theme", "dark", { path: "/" }) */
+declare function setCookie(name: string, value: string, options?: CookieOptions): boolean;
+
+/** Sets a CSS custom property. @example setCssVariable("--brand-color", "rebeccapurple") */
+declare function setCssVariable(name: string, value: string, element?: HTMLElement): boolean;
+
+/** Stores a JSON value in localStorage and reports whether it succeeded. @example setStorageItem("theme", "dark") // true */
+declare function setStorageItem(key: string, value: unknown): boolean;
+
+/** Keeps Tab navigation inside a container and returns a cleanup function. @example const release = trapFocus(dialog) */
+declare function trapFocus(container: HTMLElement): () => void;
+
+/** Resolves on the next animation frame, with an SSR-safe timer fallback. @example await waitForAnimationFrame() */
+declare const waitForAnimationFrame: () => Promise<number>;
+
+/** Resolves when an element transition ends or a timeout is reached. @example await waitForTransition(panel) */
+declare function waitForTransition(element: HTMLElement, timeout?: number): Promise<void>;
+
 /**
  * Преобразует трёх- или шестизначный HEX-цвет в кортеж RGB.
  *
@@ -253,8 +428,10 @@ declare const HEXtoRGB: (hex: string) => [number, number, number];
 /**
  * Преобразует цвет из HSV в RGB.
  *
+ * `h`, `s` и `v` должны быть в диапазоне `0..1`.
+ *
  * @example
- * HSVtoRGB(0, 100, 100) // [255, 0, 0]
+ * HSVtoRGB(0, 1, 1) // [255, 0, 0]
  */
 declare const HSVtoRGB: (h: number, s: number, v: number) => [number, number, number];
 
@@ -270,7 +447,7 @@ declare const RGBtoHEX: (r: number, g: number, b: number) => string;
  * Преобразует цвет из RGB в HSV.
  *
  * @example
- * RGBtoHSV(255, 0, 0) // [0, 100, 100]
+ * RGBtoHSV(255, 0, 0) // [0, 1, 1]
  */
 declare const RGBtoHSV: (r: number, g: number, b: number) => [number, number, number];
 
@@ -400,6 +577,16 @@ declare function omit<T extends object, K extends keyof T>(object: T, keys: K[])
  * pick({ key: "1", id: "2" }, ["key"]) // return: { key: "1" }
  */
 declare function pick<T extends object, K extends keyof T>(object: T, keys: K[]): Pick<T, K>;
+
+/**
+ * Разбирает JSON и возвращает fallback вместо исключения при невалидных данных.
+ *
+ * @example
+ * safeJsonParse<{ page: number }>("{\"page\":2}") // { page: 2 }
+ * safeJsonParse("invalid", null) // null
+ */
+declare function safeJsonParse<T>(value: string): T | undefined;
+declare function safeJsonParse<T>(value: string, fallback: T): T;
 
 /**
  * Рекурсивно копирует объекты и массивы, а `Map` и `Set` — только на верхнем уровне.
@@ -542,6 +729,17 @@ declare const elasticClamp: (value: number, min: number, max: number, options?: 
 }) => number;
 
 /**
+ * Форматирует размер в байтах в компактную строку с бинарным суффиксом.
+ *
+ * @example
+ * formatBytes(1536) // "1.5 KB"
+ */
+declare function formatBytes(bytes: number, fractionDigits?: number): string;
+
+/** Formats a duration for UI. @example formatDuration(90_000) // "1m 30s" */
+declare function formatDuration(milliseconds: number): string;
+
+/**
  * Разделяет тысячи точками без изменения дробной части.
  *
  * @example
@@ -577,6 +775,24 @@ declare function randomByWeight<Items extends Record<string, number>>(items: Ite
  * toShort(1_250) // "1.2k"
  */
 declare const toShort: (number: number, customParts?: string[], fixed?: number) => string;
+
+/** Capitalizes the first character of a string. @example capitalize("utils") // "Utils" */
+declare const capitalize: (value: string) => string;
+
+/** Escapes text for use inside a regular expression. @example escapeRegExp("a+b") // "a\\+b" */
+declare const escapeRegExp: (value: string) => string;
+
+/** Returns a lowercase file extension without a dot. @example getFileExtension("photo.PNG") // "png" */
+declare const getFileExtension: (value: string) => string;
+
+/** Removes the final extension from a file name. @example getFileNameWithoutExtension("photo.png") // "photo" */
+declare const getFileNameWithoutExtension: (value: string) => string;
+
+/** Performs a lightweight email-address validation. @example isEmail("hi@example.com") // true */
+declare const isEmail: (value: string) => boolean;
+
+/** Checks whether a value is an absolute HTTP(S) URL. @example isUrl("https://example.com") // true */
+declare const isUrl: (value: string) => boolean;
 
 /**
  * Опции для парсера текста
@@ -644,6 +860,9 @@ declare function parseVersionString(versionString: string): {
     prerelease: string | null;
 };
 
+/** Removes HTML tags from a string. @example stripHtml("<b>Hello</b>") // "Hello" */
+declare const stripHtml: (value: string) => string;
+
 interface TextParserOptions {
     onToken?: (token: TextToken) => TextToken;
     requireProtocol?: boolean;
@@ -662,6 +881,18 @@ interface TextToken {
  * textParserUrl("Сайт example.com") // [{ type: "raw", value: "Сайт " }, { type: "url", value: "example.com" }]
  */
 declare const textParserUrl: (input: string, options?: TextParserOptions) => TextToken[];
+
+/** Converts words to camelCase. @example toCamelCase("user profile") // "userProfile" */
+declare const toCamelCase: (value: string) => string;
+
+/** Converts words to kebab-case. @example toKebabCase("user profile") // "user-profile" */
+declare const toKebabCase: (value: string) => string;
+
+/** Converts words to snake_case. @example toSnakeCase("user profile") // "user_profile" */
+declare const toSnakeCase: (value: string) => string;
+
+/** Truncates text without exceeding the requested length. @example truncate("Hello world", 8) // "Hello..." */
+declare function truncate(value: string, maxLength: number, suffix?: string): string;
 
 interface UrlRule {
     hosts: (string | RegExp)[];
@@ -829,4 +1060,4 @@ declare class UrlSecurityManager {
  */
 declare function parseQueryString<Result extends Record<string, string>>(queryString: string): Result;
 
-export { DataKeeper, DebouncedFunction, EventEmitter, HEXtoRGB, HSVtoRGB, ObjectURLManager, RGBtoHEX, RGBtoHSV, RequestDeduplicator, UrlAction, type UrlRule, UrlSecurityManager, alignTo, chunks, clamp, distributor as comparison, copyText, createLinksFromText, decWord, elasticClamp, formatNumber, generateUniqueKey, getChangedData, groupBy, isType, memoize, omit, once, orderBy, parseQueryString, parseTextTokens, parseVersionString, pick, random, randomByWeight, retry, shuffle, sleep, textParserUrl, timeAgo, toShort, unique, unlink, updateCurrent };
+export { type ColorSchemePreference, type CookieOptions, DataKeeper, DebouncedFunction, type ElementOffset, EventEmitter, HEXtoRGB, HSVtoRGB, ObjectURLManager, RGBtoHEX, RGBtoHSV, RequestDeduplicator, type SafeAreaInsets, UrlAction, type UrlRule, UrlSecurityManager, alignTo, capitalize, chunks, clamp, distributor as comparison, copyImageToClipboard, copyText, createAbortTimeout, createLinksFromText, createMediaQuery, debounce, decWord, downloadBlob, elasticClamp, escapeRegExp, focusFirst, focusLast, formatBytes, formatDuration, formatNumber, generateUniqueKey, getChangedData, getCookie, getCssVariable, getDevicePixelRatio, getElementOffset, getFileExtension, getFileNameWithoutExtension, getFocusableElements, getImageDimensions, getSafeAreaInsets, getScrollParent, getScrollbarWidth, getStorageItem, groupBy, isAbortError, isBrowser, isElementVisible, isEmail, isMobileViewport, isTouchDevice, isType, isUrl, memoize, nextFrame, omit, once, orderBy, parseCookies, parseQueryString, parseTextTokens, parseVersionString, pick, prefersColorScheme, prefersReducedMotion, random, randomByWeight, readFileAsDataUrl, readFileAsText, removeCookie, removeStorageItem, retry, safeJsonParse, scrollIntoViewIfNeeded, setCookie, setCssVariable, setStorageItem, shuffle, sleep, stripHtml, textParserUrl, throttle, timeAgo, toCamelCase, toKebabCase, toShort, toSnakeCase, trapFocus, truncate, unique, unlink, updateCurrent, waitForAnimationFrame, waitForTransition, withTimeout };

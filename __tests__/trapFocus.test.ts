@@ -1,0 +1,2 @@
+import { trapFocus } from "../src"
+test("trapFocus attaches and removes a key handler", () => { const container = { addEventListener: jest.fn(), removeEventListener: jest.fn() } as unknown as HTMLElement; const release = trapFocus(container); expect(container.addEventListener).toHaveBeenCalledWith("keydown", expect.any(Function)); release(); expect(container.removeEventListener).toHaveBeenCalledWith("keydown", expect.any(Function)) })
