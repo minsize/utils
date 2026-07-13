@@ -1,25 +1,44 @@
 {
   "name": "@minsize/utils",
   "version": "0.4.4",
-  "description": "Frequently used utilities",
+  "description": "Small, typed TypeScript utilities for arrays, data, text, URLs, and browser APIs.",
   "license": "MIT",
-  "types": "index.ts",
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "author": {
     "name": "Egor Kytyukov",
     "url": "https://t.me/xuserz"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/minsize/utils"
+    "url": "git+https://github.com/minsize/utils.git"
+  },
+  "homepage": "https://github.com/minsize/utils#readme",
+  "bugs": {
+    "url": "https://github.com/minsize/utils/issues"
   },
   "dependencies": {
     "@minsize/mutex": "^0.0.7"
   },
-  "contributors": [],
   "keywords": [
-    "utils",
+    "utility",
     "utilities",
-    "frontend",
-    "backend"
+    "typescript",
+    "javascript",
+    "array",
+    "url",
+    "text"
   ]
 }

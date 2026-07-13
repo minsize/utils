@@ -1,52 +1,72 @@
-export { default as clamp } from "./utils/clamp"
-export { default as decWord } from "./utils/decWord"
-export { default as alignTo } from "./utils/alignTo"
-export { default as toShort } from "./utils/toShort"
-export { default as formatNumber } from "./utils/formatNumber"
-export { default as random } from "./utils/random"
-export { default as randomByWeight } from "./utils/randomByWeight"
-export { default as isType } from "./utils/isType"
-export { default as omit } from "./utils/omit"
-export { default as pick } from "./utils/pick"
-export { default as sleep } from "./utils/sleep"
-export { default as copyText } from "./utils/copyText"
-export { default as createLinksFromText } from "./utils/createLinksFromText"
-export { default as comparison } from "./utils/comparison"
-export { default as generateUniqueKey } from "./utils/generateUniqueKey"
-export { default as unlink } from "./utils/unlink"
-export { default as textParserUrl } from "./utils/textParserUrl"
-export { default as parseTextTokens } from "./utils/parseTextTokens"
-export { default as memoize } from "./utils/memoize"
-export { default as retry } from "./utils/retry"
-export { default as parseQueryString } from "./utils/parseQueryString"
-export { default as parseVersionString } from "./utils/parseVersionString"
-export { default as elasticClamp } from "./utils/elasticClamp"
-export { default as updateCurrent } from "./utils/updateCurrent"
-export { default as getChangedData } from "./utils/getChangedData"
+/**
+ * Public API for `@minsize/utils`.
+ *
+ * Import utilities from the package root:
+ *
+ * @example
+ * import { clamp, groupBy } from "@minsize/utils"
+ */
 
-export { default as chunks } from "./utils/array/chunks"
-export { default as shuffle } from "./utils/array/shuffle"
-export { default as unique } from "./utils/array/unique"
-export { default as groupBy } from "./utils/array/groupBy"
-export { default as orderBy } from "./utils/array/orderBy"
+// Arrays
+export { default as chunks } from "./array/chunks"
+export { default as groupBy } from "./array/groupBy"
+export { default as orderBy } from "./array/orderBy"
+export { default as shuffle } from "./array/shuffle"
+export { default as unique } from "./array/unique"
 
-export { default as HSVtoRGB } from "./utils/colors/HSVtoRGB"
-export { default as RGBtoHEX } from "./utils/colors/RGBtoHEX"
-export { default as RGBtoHSV } from "./utils/colors/RGBtoHSV"
-export { default as HEXtoRGB } from "./utils/colors/HEXtoRGB"
+// Async control flow
+export { default as DebouncedFunction } from "./async/debouncedFunction"
+export { default as once } from "./async/once"
+export { default as RequestDeduplicator } from "./async/RequestDeduplicator"
+export { default as retry } from "./async/retry"
+export { default as sleep } from "./async/sleep"
 
-/* time */
-export { default as timeAgo } from "./utils/date/timeAgo"
+// Browser APIs
+export { default as copyText } from "./browser/copyText"
+export { default as createLinksFromText } from "./browser/createLinksFromText"
+export { default as ObjectURLManager } from "./browser/ObjectURLManager"
 
-export { default as EventEmitter } from "./utils/eventemitter"
-export { default as DebouncedFunction } from "./utils/debouncedFunction"
-export { default as DataKeeper } from "./utils/DataKeeper"
-export { default as RequestDeduplicator } from "./utils/RequestDeduplicator"
+// Colors
+export { default as HEXtoRGB } from "./color/HEXtoRGB"
+export { default as HSVtoRGB } from "./color/HSVtoRGB"
+export { default as RGBtoHEX } from "./color/RGBtoHEX"
+export { default as RGBtoHSV } from "./color/RGBtoHSV"
 
+// Data and objects
+export { default as comparison } from "./data/comparison"
+export { default as DataKeeper } from "./data/DataKeeper"
+export { default as generateUniqueKey } from "./data/generateUniqueKey"
+export { default as getChangedData } from "./data/getChangedData"
+export { default as isType } from "./data/isType"
+export { default as memoize } from "./data/memoize"
+export { default as omit } from "./data/omit"
+export { default as pick } from "./data/pick"
+export { default as unlink } from "./data/unlink"
+export { default as updateCurrent } from "./data/updateCurrent"
+
+// Date and events
+export { default as timeAgo } from "./date/timeAgo"
+export { default as EventEmitter } from "./events/eventemitter"
+
+// Numbers
+export { default as alignTo } from "./number/alignTo"
+export { default as clamp } from "./number/clamp"
+export { default as decWord } from "./number/decWord"
+export { default as elasticClamp } from "./number/elasticClamp"
+export { default as formatNumber } from "./number/formatNumber"
+export { default as random } from "./number/random"
+export { default as randomByWeight } from "./number/randomByWeight"
+export { default as toShort } from "./number/toShort"
+
+// Text
+export { default as parseTextTokens } from "./text/parseTextTokens"
+export { default as parseVersionString } from "./text/parseVersionString"
+export { default as textParserUrl } from "./text/textParserUrl"
+
+// URLs
 export {
   default as UrlSecurityManager,
   UrlAction,
   type UrlRule,
-} from "./utils/UrlSecurityManager"
-
-export { default as ObjectURLManager } from "./utils/ObjectURLManager"
+} from "./url/UrlSecurityManager"
+export { default as parseQueryString } from "./url/parseQueryString"
