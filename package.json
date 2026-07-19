@@ -2,7 +2,8 @@
   "scripts": {
     "build": "rollup --config config/rollup.config.ts --configPlugin @rollup/plugin-typescript && npm run test",
     "benchmark": "ts-node __banchmark__/index.ts",
-    "test": "jest --config jest.config.ts"
+    "test": "jest --config jest.config.ts",
+    "test:coverage": "jest --config jest.config.ts --coverage"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",

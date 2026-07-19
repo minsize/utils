@@ -312,5 +312,17 @@ describe("EventEmitter", () => {
       expect(emitter.pendingEvents["once-defer"][0]).toEqual(["second"])
       expect(emitter.pendingEvents["once-defer"][1]).toEqual(["third"])
     })
+
+    test("обрабатывает ошибку и очищает единственное отложенное once-событие", () => {
+      const error = jest.spyOn(console, "error").mockImplementation(() => {})
+      emitter.emitWithDefer("bad-pending", "value")
+      emitter.on("bad-pending", () => { throw new Error("bad") })
+      expect(error).toHaveBeenCalled()
+
+      emitter.emitWithDefer("single-once", "value")
+      emitter.once("single-once", jest.fn())
+      expect(emitter.pendingEvents["single-once"]).toBeUndefined()
+      error.mockRestore()
+    })
   })
 })
